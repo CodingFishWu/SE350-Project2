@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN" ng-app="myApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>网上论文审阅系统</title>
+    <meta name="description" content="secret web site">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/login.css">
+  </head>
+  <body>
+    <div ui-view></div>
+
+
+
+
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+    <script src="app.js"></script>
+    <script src="js/resource.js"></script>
+    <script src="views/login/module.js"></script>
+
+    <!-- user module -->
+    <script src="views/user/nav.js"></script>
+    <script src="views/user/main/module.js"></script>
+    <script src="views/user/paper/module.js"></script>
+    <script src="views/user/submit/module.js"></script>
+
+    <!-- reviewer module -->
+    <script src="views/reviewer/nav.js"></script>
+    <script src="views/reviewer/main/module.js"></script>
+    <script src="views/reviewer/review/module.js"></script>
+
+    <!-- chairman module -->
+    <script src="views/chairman/nav.js"></script>
+    <script src="views/chairman/main/module.js"></script>
+  </body>
+</html>

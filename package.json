@@ -1,0 +1,12 @@
+{
+  "name": "paper_review",
+  "description": "a web site for assignment of lesson",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "express": "~4.13.1"
+  }
+}

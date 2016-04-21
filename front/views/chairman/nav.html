@@ -1,0 +1,15 @@
+<nav class="navbar navbar-inverse">
+
+  <div class="navbar-header">
+    <span class="navbar-brand">主席</span>
+  </div>
+
+  <ul class="nav navbar-nav nav-links">
+    <li ng-class="{active: ctrl.$state.current.data.nav=='user.main'}">
+      <a ui-sref="nav.user.main">主页</a>
+    </li>
+
+  </ul>
+
+</nav>
+<div ui-view></div>

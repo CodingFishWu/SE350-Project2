@@ -1,0 +1,15 @@
+{
+  "name": "paper_review",
+  "homepage": "https://github.com/CodingFishWu/SE350-Project2",
+  "description": "a assignment of lesson",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "angular": "^1.5.5",
+    "angular-bootstrap": "^1.3.2",
+    "bootstrap": "^3.3.6",
+    "angular-resource": "^1.5.5",
+    "angular-ui-router": "^0.2.18"
+  }
+}
