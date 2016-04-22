@@ -14,7 +14,11 @@
 - 所有涉及到资源请求的全部用[angular-resource](https://docs.angularjs.org/api/ngResource/service/$resource)进行了抽象，文件位置在js/resources.js，用法去看文档或问我
 
 
-## 注意点
+### 注意点
 - 代码用了ES6的风格，所以需要在js文件最开始加"use strict"，具体不同体现在一些关键字上：class, let, const等
 - 每个controller和tutorial上不太一样，因为把function剥离出来形成了一个类（在命令行里面对一个class用typeof检测时会发现，class其实就是function)
 - 不懂问我
+
+### 添加和查看数据
+- 推荐使用postman(chrome插件),用post、put方法时，注意使用application/json，不然系统不会接受
+
