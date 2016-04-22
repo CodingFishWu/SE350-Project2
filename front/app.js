@@ -31,6 +31,11 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'views/login/login.html',
       controller: 'loginCtrl as ctrl'
     })
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'views/login/signup.html',
+      controller: 'signupCtrl as ctrl'
+    })
 
     // for user page
     .state('user', {
@@ -100,7 +105,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
 
     // for chairman page
     .state('chairman', {
-      url: 'chairman',
+      url: '/chairman',
       abstract: true,
       templateUrl: 'views/chairman/chairman.html'
     })

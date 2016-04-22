@@ -15,16 +15,28 @@ class loginCtrl {
 		if (self.name == "" || self.password == "") {
 			return;
 		}
-		let user = new this.UserService({
-			name: self.name,
-			password: self.password
-		});
-		user.$login(function(result, err) {
-			self.$state.go('nav.book');
-		}, function(error) {
-			if (error.status == 403)
-				alert("密码错误");
-		});
+		
+		self.UserService.query({'User.name': self.name}, function(result) {
+			if (result.User != null && result.User[0].password == self.password) {
+				alert('登录成功');
+
+				// 根据不同的role  进入不同的页面
+				switch(result.User[0].role) {
+				case 'user':
+					self.$state.go('user.nav.main');
+					break;
+				case 'reviewer':
+					self.$state.go('reviewer.nav.main');
+					break;
+				case 'chairman':
+					self.$state.go('chairman.nav.main');
+					break;
+				}
+			}
+			else {
+				alert('密码错误');
+			}
+		})
 	}
 }
 
@@ -39,20 +51,38 @@ class signupCtrl {
 
 	signup() {
 		let self = this;
+
 		if (self.name == "" || self.password == "") {
+			alert("用户名和密码不能为空");
 			return;
 		}
-		let user = new this.UserService({
-			name: self.name,
-			password: self.password
-		});
-		user.$signup(function(result) {
-			self.$state.go('nav.book');
-		}, function(result) {
-			if (result.status == 403) {
-				alert("用户名已被使用");
+
+		// first check if the user name exists
+		self.UserService.query({'User.name': self.name}, function(result) {
+			if (result.User != null) {
+				alert('用户名已被注册');
+				return;
 			}
-		});
+
+			// new user
+			let user = new self.UserService({
+				name: self.name,
+				password: self.password,
+				role: 'user'
+			});
+			// create a user
+			user.$save(function(result) {
+				alert('注册成功，请登录');
+				self.$state.go('login');
+			}, function(err) {
+				console.log(err);
+			});
+
+		}, function(err) {
+			console.log(err);
+		})
+
+		
 	}
 }
 

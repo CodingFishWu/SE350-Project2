@@ -5,7 +5,7 @@ const baseUrl = 'http://202.120.40.73:28080/Entity/Ua46d59e19268fe/PaperServ'
 angular.module('resources', ['ngResource'])
 
 .factory('UserService', ['$resource', function($resource) {
-	return $resource(baseUrl + '/User/:id', {id: '@id}'}, {
+	return $resource(baseUrl + '/User/:id', {id: '@id'}, {
 		query: {
 			method: 'GET',
 			isArray: false
