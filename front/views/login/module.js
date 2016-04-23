@@ -21,15 +21,16 @@ class loginCtrl {
 				alert('登录成功');
 
 				// 根据不同的role  进入不同的页面
-				switch(result.User[0].role) {
+				let user = result.User[0];
+				switch(user.role) {
 				case 'user':
-					self.$state.go('user.nav.main');
+					self.$state.go('user.nav.main', {userId: user.id});
 					break;
 				case 'reviewer':
-					self.$state.go('reviewer.nav.main');
+					self.$state.go('reviewer.nav.main', {reviewerId: user.id});
 					break;
 				case 'chairman':
-					self.$state.go('chairman.nav.main');
+					self.$state.go('chairman.nav.main', {chairman: user.id});
 					break;
 				}
 			}

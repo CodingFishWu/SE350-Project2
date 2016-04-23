@@ -3,6 +3,7 @@
 class UserNavCtrl {
 	constructor($state) {
 		this.$state = $state;
+		this.userId = $state.params.userId;
 	}
 }
 

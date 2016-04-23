@@ -17,11 +17,11 @@
 		</div>
 		<br>
 		<hr class="list-hr">
-		<div class="media paper-item">
+		<div class="media paper-item" ng-repeat="item in ctrl.papers track by $index">
 		  	<div class="media-body">
-		  	  	<h4 class="media-heading">论文标题 <small>作者: 作者名 编号: 论文编号</small></h4>
+		  	  	<h4 class="media-heading">{{item.title}} <small>作者: {{item.author}} 编号: {{item.serialnumber}}</small></h4>
 		  	  	<p>
-		  	  		<span>投稿日期: 2016-01-01</span>
+		  	  		<span>投稿日期: {{item.createdtime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
 		  	  		<span>关键字: 
 		  	  			<span class="label label-info">Info</span>
 		  	  			<span class="label label-info">Info</span>

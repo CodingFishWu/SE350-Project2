@@ -6,7 +6,7 @@
 
   <ul class="nav navbar-nav nav-links">
     <li ng-class="{active: ctrl.$state.current.data.nav=='main'}">
-      <a ui-sref="chairman.nav.main">主页</a>
+      <a ui-sref="chairman.nav.main({userId: ctrl.userId})">主页</a>
     </li>
 
   </ul>

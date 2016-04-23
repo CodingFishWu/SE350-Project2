@@ -6,10 +6,10 @@
 
   <ul class="nav navbar-nav nav-links">
     <li ng-class="{active: ctrl.$state.current.data.nav=='main'}">
-      <a ui-sref="reviewer.nav.main">主页</a>
+      <a ui-sref="reviewer.nav.main({userId: ctrl.userId})">主页</a>
     </li>
     <li ng-class="{active: ctrl.$state.current.data.nav=='reviewer'}">
-      <a ui-sref="reviewer.nav.reviewer">审阅论文</a>
+      <a ui-sref="reviewer.nav.reviewer({userId: ctrl.userId})">审阅论文</a>
     </li>
 
   </ul>

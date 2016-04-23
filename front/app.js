@@ -39,7 +39,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
 
     // for user page
     .state('user', {
-      url: '/user',
+      url: '/user/:userId',
       abstract: true,
       templateUrl: 'views/user/user.html'
     })
@@ -76,7 +76,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
 
     // for reviewer page
     .state('reviewer', {
-      url: '/reviewer',
+      url: '/reviewer/:userId',
       abstract: true,
       templateUrl: 'views/reviewer/reviewer.html'
     })
@@ -105,7 +105,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
 
     // for chairman page
     .state('chairman', {
-      url: '/chairman',
+      url: '/chairman/:userId',
       abstract: true,
       templateUrl: 'views/chairman/chairman.html'
     })

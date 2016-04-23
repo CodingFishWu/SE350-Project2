@@ -6,10 +6,10 @@
 
   <ul class="nav navbar-nav nav-links">
     <li ng-class="{active: ctrl.$state.current.data.nav=='main'}">
-      <a ui-sref="user.nav.main">主页</a>
+      <a ui-sref="user.nav.main({userId: ctrl.userId})">主页</a>
     </li>
     <li ng-class="{active: ctrl.$state.current.data.nav=='submit'}">
-      <a ui-sref="user.nav.submit">提交论文</a>
+      <a ui-sref="user.nav.submit({userId: ctrl.userId})">提交论文</a>
     </li>
 
   </ul>

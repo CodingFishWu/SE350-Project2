@@ -3,6 +3,8 @@
 class ChairmanNavCtrl {
 	constructor($state) {
 		this.$state = $state;
+
+		this.userId = $state.params.userId;
 	}
 }
 
