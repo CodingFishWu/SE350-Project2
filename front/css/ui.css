@@ -1,0 +1,38 @@
+.list-header {
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-right: .5em;
+	vertical-align: middle;
+	font-size: 24px;
+}
+
+.list-hr {
+	border-top: 1px solid #ddd;
+}
+
+.paper-item {
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 4px;
+	border-bottom: 1px dashed #ddd;
+}
+.paper-item-main {
+
+}
+.paper-item-status {
+	padding-left: 1em;
+	padding-right: 1em;
+	vertical-align: middle;
+}
+.paper-item-status>p {
+	display: block;
+	min-width: 3em;
+}
+.paper-item-btn {
+	display: table-cell;
+	vertical-align: middle;
+}
+.paper-item-btn>.btn {
+	margin-bottom: 4px;
+}
+
