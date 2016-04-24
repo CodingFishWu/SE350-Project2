@@ -37,7 +37,8 @@ class UserMainCtrl {
 				templateUrl: 'views/user/main/edit.html',
 				controller: 'userPaperCtrl as ctrl',
 				resolve: {
-					paper: self.papers[index]
+					//paper: self.papers[index]
+					paper: {}
 				}
 			})
 			.result.then(function() {

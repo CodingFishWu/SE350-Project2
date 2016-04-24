@@ -1,0 +1,77 @@
+<div class="modal-header">
+  <h4 class="modal-title">论文详情</h4>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">标题</label>
+          <div class="col-sm-10">
+            <p>{{ctrl.title}}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">作者</label>
+          <div class="col-sm-10">
+            <p>{{ctrl.author}}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">通讯作者</label>
+          <div class="col-sm-10">
+            <p>{{ctrl.correspondingauthor}}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">作者单位</label>
+          <div class="col-sm-10">
+            <p>{{ctrl.affiliation}}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">通讯地址</label>
+          <div class="col-sm-10">
+            <p>{{ctrl.correspondingaddress}}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">摘要</label>
+          <div class="col-sm-10">
+            <textarea class="form-control" rows="5" ng-model="ctrl.abstraction"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">关键词</label>
+          <div class="col-sm-10">
+            <div class="tag-group">
+              <button type="button" class="btn btn-info btn-xs">
+                 标签1 <span class="glyphicon glyphicon-remove"></span>
+              </button>
+              <button type="button" class="btn btn-info btn-xs">
+                 标签2 <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </div>
+            <div class="input-group tag-add">
+              <input type="text" class="form-control" placeholder="关键词">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">添加</button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">论文正文</label>
+          <div class="col-sm-10">
+            <input type="file" class="col-sm-10" ng-model="ctrl.file">
+          </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default" ng-click="ctrl.submit()">提交</button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
