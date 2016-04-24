@@ -5,12 +5,23 @@ class UserSubmitCtrl {
 		this.$state = $state;
 		this.PaperService = PaperService;
 
-		let self = this;
-		this.PaperService.query(function(result) {
-			console.log(result);
-			self.papers = result.Paper;
-		})
+	}
 
+	submit() {
+		let self = this;
+		let paper = new self.PaperService({
+			title: self.title,
+			author: self.author,
+			correspondingauthor: self.correspondingauthor,
+			affiliation: self.affiliation,
+			correspondingaddress: self.correspondingaddress,
+			abstraction: self.abstraction,
+			createdtime: Math.floor(new Date().getTime() / 1000),
+			status: 'created'
+		});
+		paper.$save(function(result) {
+			let id = result.id;
+		})
 	}
 
 
