@@ -7,7 +7,6 @@ var myApp = angular.module('myApp',[
 
   'userNavModule',
   'userMainModule',
-  'userPaperModule',
   'userSubmitModule',
 
   'reviewerNavModule',
@@ -55,14 +54,6 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
       controller: 'userMainCtrl as ctrl',
       data: {
         nav: 'main'
-      }
-    })
-    .state('user.nav.paper', {
-      url: '/paper',
-      templateUrl: 'views/user/paper/paper.html',
-      controller: 'userPaperCtrl as ctrl',
-      data: {
-        nav: 'paper'
       }
     })
     .state('user.nav.submit', {

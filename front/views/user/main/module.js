@@ -34,7 +34,7 @@ class UserMainCtrl {
 	edit(index) {
 		let self = this;
 		self.$uibModal.open({
-				templateUrl: 'views/user/paper/paper.html',
+				templateUrl: 'views/user/main/edit.html',
 				controller: 'userPaperCtrl as ctrl',
 				resolve: {
 					paper: self.papers[index]
@@ -49,5 +49,13 @@ class UserMainCtrl {
 
 }
 
+class UserPaperCtrl {
+	constructor($state, paper) {
+		this.$state = $state;
+		this.paper = paper;
+	}
+}
+
 angular.module('userMainModule', [])
-.controller('userMainCtrl', ['$state', '$uibModal', 'PaperService', 'KeyWordService', UserMainCtrl]);
+.controller('userMainCtrl', ['$state', '$uibModal', 'PaperService', 'KeyWordService', UserMainCtrl])
+.controller('userPaperCtrl', ['$state', 'paper', UserPaperCtrl]);
