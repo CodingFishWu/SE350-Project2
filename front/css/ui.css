@@ -48,3 +48,11 @@
 .dl-horizontal dd {
 	margin-left: 5em;
 }
+
+/* 标签组 */
+.tag-group {
+	margin-bottom: .5em;
+}
+.tag-add {
+	max-width: 16em;
+}
