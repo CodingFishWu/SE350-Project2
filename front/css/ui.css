@@ -1,3 +1,4 @@
+/* 论文列表大标题 */
 .list-header {
 	margin-top: 0;
 	margin-bottom: 0;
@@ -5,11 +6,15 @@
 	vertical-align: middle;
 	font-size: 24px;
 }
-
+.list-header>small {
+	font-size: 75%;
+	vertical-align: bottom;
+}
 .list-hr {
 	border-top: 1px solid #ddd;
 }
 
+/* 论文列表项目 */
 .paper-item {
 	padding-left: 15px;
 	padding-right: 15px;
@@ -36,3 +41,10 @@
 	margin-bottom: 4px;
 }
 
+/* 水平列表 */
+.dl-horizontal dt {
+	width: 4em;
+}
+.dl-horizontal dd {
+	margin-left: 5em;
+}
