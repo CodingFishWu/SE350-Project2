@@ -56,3 +56,8 @@
 .tag-add {
 	max-width: 16em;
 }
+
+/* 输入框 */
+.limit-control {
+	max-width: 8em;
+}
