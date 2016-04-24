@@ -1,10 +1,11 @@
 "use strict";
 
 class UserPaperCtrl {
-	constructor($state) {
+	constructor($state, paper) {
 		this.$state = $state;
+		this.paper = paper;
 	}
 }
 
 angular.module('userPaperModule', [])
-.controller('userPaperCtrl', ['$state', UserPaperCtrl]);
+.controller('userPaperCtrl', ['$state', 'paper', UserPaperCtrl]);

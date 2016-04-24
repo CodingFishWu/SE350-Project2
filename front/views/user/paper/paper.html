@@ -1,65 +1,60 @@
-<div class="modal show">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">论文详情</h4>
-      </div>
-      <div class="modal-body">
-        <div class="container-fluid">
-        	<div class="row">
-        		<!-- 标题 -->
-        		<div class="col-md-8">
-        			<span class="list-header">论文标题 <small>编号: 11223344</small></span>
-        		</div>
-        		<div class="col-md-4">
-        			<button type="button" class="btn btn-default pull-right">
-          				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 编辑
-        			</button>
-        		</div>
-        		<br>
-        		<hr>
-        		<!-- 详细内容 -->
-        		<div class="col-md-12">
-        			<dl class="dl-horizontal">
-        		  		<dt>发布日期</dt>
-        		  		<dd>2016-01-01</dd>
-						
-						<dt>状态</dt>
-        		  		<dd>审核中</dd>
-						
-						<dt>关键词</dt>
-        		  		<dd>关键词列表</dd>
-	
-        		  		<dt>作者</dt>
-        		  		<dd>作者名</dd>
-	
-        		  		<dt>作者单位</dt>
-        		  		<dd>单位信息</dd>
-	
-        		  		<dt>通讯作者</dt>
-        		  		<dd>通讯作者</dd>
-	
-        		  		<dt>通讯地址</dt>
-        		  		<dd>地址信息</dd>
-	
-        		  		<dt>论文摘要</dt>
-        		  		<dd>摘要信息</dd>
-	
-        		  		<dt>论文正文</dt>
-        		  		<dd>正文地址</dd>
-        			</dl>
-        			<div class="input-group">
-        			      <input type="text" class="form-control" placeholder="标签(用','分隔)">
-        			      <span class="input-group-btn">
-        			        <button class="btn btn-default" type="button">提交标签</button>
-        			      </span>
-        			    </div>
-        		</div>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <h4 class="modal-title">论文详情</h4>
+</div>
 
-        	</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- 标题 -->
+      <div class="col-md-8">
+        <span class="list-header">论文标题 <small>编号: 11223344</small></span>
+      </div>
+      <div class="col-md-4">
+        <button type="button" class="btn btn-default pull-right">
+          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 编辑
+        </button>
+      </div>
+      <br>
+      <hr>
+      <!-- 详细内容 -->
+      <div class="col-md-12">
+        <dl class="dl-horizontal">
+          <dt>发布日期</dt>
+          <dd>{{ctrl.paper.createdtime | date:'yyyy-MM-dd HH:mm:ss'}}</dd>
+            
+          <dt>状态</dt>
+          <dd>{{ctrl.paper.status}}</dd>
+            
+          <dt>关键词</dt>
+          <dd>{{ctrl.paper.keywords}}</dd>
+  
+          <dt>作者</dt>
+          <dd>{{ctrl.paper.author}}</dd>
+  
+          <dt>作者单位</dt>
+          <dd>{{ctrl.paper.affliation}}</dd>
+  
+          <dt>通讯作者</dt>
+          <dd>{{ctrl.paper.correspondingauthor}}</dd>
+  
+          <dt>通讯地址</dt>
+          <dd>{{ctrl.paper.correspondingaddress}}</dd>
+  
+          <dt>论文摘要</dt>
+          <dd>{{ctrl.paper.abstraction}}</dd>
+  
+          <dt>论文正文</dt>
+          <dd>正文地址</dd>
+        </dl>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="标签(用','分隔)">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">提交标签</button>
+          </span>
         </div>
       </div>
+
     </div>
   </div>
 </div>
