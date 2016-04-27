@@ -8,54 +8,51 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">标题</label>
           <div class="col-sm-10">
-            <p>{{ctrl.title}}</p>
+            <p>{{ctrl.paper.title}}</p>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">作者</label>
           <div class="col-sm-10">
-            <p>{{ctrl.author}}</p>
+            <p>{{ctrl.paper.author}}</p>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">通讯作者</label>
           <div class="col-sm-10">
-            <p>{{ctrl.correspondingauthor}}</p>
+            <p>{{ctrl.paper.correspondingauthor}}</p>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">作者单位</label>
           <div class="col-sm-10">
-            <p>{{ctrl.affiliation}}</p>
+            <p>{{ctrl.paper.affiliation}}</p>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">通讯地址</label>
           <div class="col-sm-10">
-            <p>{{ctrl.correspondingaddress}}</p>
+            <p>{{ctrl.paper.correspondingaddress}}</p>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">摘要</label>
           <div class="col-sm-10">
-            <textarea class="form-control" rows="5" ng-model="ctrl.abstraction"></textarea>
+            <textarea class="form-control" rows="5" ng-model="ctrl.paper.abstraction"></textarea>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">关键词</label>
           <div class="col-sm-10">
             <div class="tag-group">
-              <button type="button" class="btn btn-info btn-xs">
-                 标签1 <span class="glyphicon glyphicon-remove"></span>
-              </button>
-              <button type="button" class="btn btn-info btn-xs">
-                 标签2 <span class="glyphicon glyphicon-remove"></span>
+              <button type="button" class="btn btn-info btn-xs" ng-repeat="item in ctrl.paper.keys track by $index">
+                 {{item.word}} <span class="glyphicon glyphicon-remove" ng-click="ctrl.remove($index)"></span>
               </button>
             </div>
             <div class="input-group tag-add">
-              <input type="text" class="form-control" placeholder="关键词">
+              <input type="text" class="form-control" placeholder="关键词" ng-model="ctrl.word">
               <span class="input-group-btn">
-                <button class="btn btn-default" type="button">添加</button>
+                <button class="btn btn-default" type="button" ng-click="ctrl.add()">添加</button>
               </span>
             </div>
           </div>
@@ -63,12 +60,12 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">论文正文</label>
           <div class="col-sm-10">
-            <input type="file" class="col-sm-10" ng-model="ctrl.file">
+            <input type="file" name="file" class="col-sm-10" ng-model="ctrl.file">
           </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default" ng-click="ctrl.submit()">提交</button>
+              <button type="submit" class="btn btn-default" ng-click="ctrl.submit()">保存</button>
             </div>
           </div>
       </form>
