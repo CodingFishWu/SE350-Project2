@@ -11,7 +11,6 @@ var myApp = angular.module('myApp',[
 
   'reviewerNavModule',
   'reviewerMainModule',
-  'reviewerReviewModule',
 
   'chairmanNavModule',
   'chairmanMainModule'
@@ -83,14 +82,6 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
       controller: 'reviewerMainCtrl as ctrl',
       data: {
         nav: 'main'
-      }
-    })
-    .state('reviewer.nav.review', {
-      url: '/review',
-      templateUrl: 'views/reviewer/review/review.html',
-      controller: 'reviewerReviewCtrl as ctrl',
-      data: {
-        nav: 'review'
       }
     })
 
