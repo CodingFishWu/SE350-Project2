@@ -3,13 +3,13 @@
 	<div class="col-md-9">
 		<div class="col-md-6">
 			<span class="list-header">论文列表</span>
-			<button type="button" class="btn btn-default">
+			<button type="button" class="btn btn-default" ng-click="ctrl.add()">
   				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加
 			</button>
 		</div>
 		<div class="col-md-6">
 			<div class="input-group">
-			  	<input type="text" class="form-control" placeholder="Search for...">
+			  	<input type="text" class="form-control" ng-model="ctrl.filtText" placeholder="Search for...">
 			  	<span class="input-group-btn">
 			  	  	<button class="btn btn-default" type="button">Go!</button>
 			  	</span>
@@ -17,7 +17,7 @@
 		</div>
 		<br>
 		<hr class="list-hr">
-		<div class="media paper-item" ng-repeat="item in ctrl.papers track by $index">
+		<div class="media paper-item" ng-repeat="item in ctrl.papers | filter:ctrl.filtText track by $index">
 			<!-- paper author, titie, keyword, etc -->
 		  	<div class="media-body">
 		  	  	<h4 class="media-heading">{{item.title}} <small>作者: {{item.author}} 编号: {{item.serialnumber}}</small></h4>

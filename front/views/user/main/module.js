@@ -63,6 +63,10 @@ class UserMainCtrl {
 			self.getPapers();
 		});
 	}
+
+	add() {
+		this.$state.go('user.nav.submit',{userId: this.userId});
+	}
 }
 
 class UserPaperCtrl {
@@ -71,6 +75,7 @@ class UserPaperCtrl {
 		this.TagService = TagService;
 		this.paper = paper;
 
+		this.url = 'http://202.120.40.73:28080/file/Ua46d59e19268fe/PaperServ/Paper/'+this.paper.id;
 		this.keys = '';
 		for (let key of paper.keys) {
 			this.keys += key.word + ', ';
