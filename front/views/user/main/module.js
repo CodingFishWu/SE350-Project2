@@ -47,6 +47,10 @@ class UserMainCtrl {
 				paper: self.papers[index]
 			}
 		})
+		.result.then(function() {
+			// 防止添加完以后立即修改导致id不存在，所以必须重新获取
+			self.getPapers();
+		});
 	}
 
 	edit(index) {
@@ -67,14 +71,26 @@ class UserMainCtrl {
 	add() {
 		this.$state.go('user.nav.submit',{userId: this.userId});
 	}
+
+	editable(status) {
+		if (status=='created' || status=='commenting' || status=='judging' ||
+			status=='resubmitted') {
+			return true
+		}
+		else
+			return false
+	}
 }
 
 class UserPaperCtrl {
-	constructor($state, TagService, paper) {
+	constructor($state, $uibModalInstance, PaperService, TagService, paper) {
 		this.$state = $state;
+		this.$uibModalInstance = $uibModalInstance
+		this.PaperService = PaperService
 		this.TagService = TagService;
 		this.paper = paper;
 
+		this.userId = $state.params.userId;
 		this.url = 'http://202.120.40.73:28080/file/Ua46d59e19268fe/PaperServ/Paper/'+this.paper.id;
 		this.keys = '';
 		for (let key of paper.keys) {
@@ -116,6 +132,38 @@ class UserPaperCtrl {
 			self.getTags();
 			alert('添加成功');
 		})
+	}
+
+	revoke() {
+		let self = this;
+		let paper = new self.PaperService({
+			id: self.paper.id,
+			title: self.paper.title,
+			author: self.paper.author,
+			correspondingauthor: self.paper.correspondingauthor,
+			affiliation: self.paper.affiliation,
+			correspondingaddress: self.paper.correspondingaddress,
+			abstraction: self.paper.abstraction,
+			createdtime: self.paper.createdtime,
+			status: 'revoked',
+			serialnumber: self.paper.serialnumber,
+			user: {
+				type: 'User',
+				id: self.userId
+			}
+		})
+		paper.$put(function(result) {
+			alert('撤销成功');
+			self.$uibModalInstance.close()
+		})
+	}
+
+	revokable(status) {
+		if (status=='accepted') {
+			return true
+		}
+		else
+			return false
 	}
 
 
@@ -218,5 +266,5 @@ class UserEditCtrl {
 
 angular.module('userMainModule', [])
 .controller('userMainCtrl', ['$state', '$uibModal', 'PaperService', 'KeyService', UserMainCtrl])
-.controller('userPaperCtrl', ['$state', 'TagService', 'paper', UserPaperCtrl])
+.controller('userPaperCtrl', ['$state', '$uibModalInstance', 'PaperService', 'TagService', 'paper', UserPaperCtrl])
 .controller('userEditCtrl', ['$state', '$uibModalInstance', 'PaperService', 'KeyService', 'paper', UserEditCtrl])
