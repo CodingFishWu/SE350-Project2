@@ -105,6 +105,14 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
         nav: 'main'
       }
     })
+    .state('chairman.nav.permission', {
+      url: '/permission',
+      templateUrl: 'views/chairman/permission/permission.html',
+      controller: 'chairmanPermissionCtrl as ctrl',
+      data: {
+        nav: 'permission'
+      }
+    })
 
     /*
     **  not found

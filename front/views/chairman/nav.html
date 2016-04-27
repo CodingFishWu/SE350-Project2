@@ -8,7 +8,9 @@
     <li ng-class="{active: ctrl.$state.current.data.nav=='main'}">
       <a ui-sref="chairman.nav.main({userId: ctrl.userId})">主页</a>
     </li>
-
+    <li ng-class="{active: ctrl.$state.current.data.nav=='permission'}">
+      <a ui-sref="chairman.nav.permission({userId: ctrl.userId})">分配</a>
+    </li>
   </ul>
 
 </nav>
