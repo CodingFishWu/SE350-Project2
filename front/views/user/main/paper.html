@@ -8,6 +8,7 @@
       <!-- 标题 -->
       <div class="col-md-8">
         <span class="list-header">{{ctrl.paper.title}} <small>编号: {{ctrl.paper.serialnumber}}</small></span>
+        <button class="btn btn-danger pull-right" ng-click="ctrl.revoke()" ng-disabled="!revokable(ctrl.paper.status)">撤销</button>
       </div>
       <br>
       <hr>
@@ -18,7 +19,7 @@
           <dd>{{ctrl.paper.createdtime | date:'yyyy-MM-dd HH:mm:ss'}}</dd>
             
           <dt>状态</dt>
-          <dd>{{ctrl.paper.status}}</dd>
+          <dd>{{ctrl.paper.status | filtStatus}}</dd>
             
           <dt>关键词</dt>
           <dd>{{ctrl.keys}}</dd>
@@ -51,7 +52,7 @@
     		   	<div class="input-group tag-add">
     		   	  <input type="text" class="form-control" placeholder="标签" ng-model="ctrl.tag">
     		   	  <span class="input-group-btn">
-    		   	    <button class="btn btn-default" type="button" ng-click="ctrl.add()">添加</button>
+    		   	    <button class="btn btn-default" type="button" ng-click="ctrl.add()" ng-disabled="ctrl.paper.status!='accepted'">添加</button>
     		   	  </span>
     		   	</div>
           </dd>

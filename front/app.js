@@ -3,6 +3,7 @@ var myApp = angular.module('myApp',[
 	'ui.bootstrap',
   'resources',
 
+  'myFilters',
 	'loginModule',
 
   'userNavModule',
