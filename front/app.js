@@ -13,7 +13,8 @@ var myApp = angular.module('myApp',[
   'reviewerMainModule',
 
   'chairmanNavModule',
-  'chairmanMainModule'
+  'chairmanMainModule',
+  'chairmanPermissionModule'
   ]);
 
  
