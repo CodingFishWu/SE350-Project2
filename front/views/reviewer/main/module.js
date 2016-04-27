@@ -10,6 +10,7 @@ class ReviewerMainCtrl {
 
 		this.userId = $state.params.userId;
 
+
 		this.getPapers();
 	}
 
@@ -18,18 +19,20 @@ class ReviewerMainCtrl {
 		self.ExamineService.query({'Examine.reviewer.id': self.userId}, function(result) {
 			self.examines = result.Examine;
 
-			self.papers = [];
+			self.backups = [];
 			for (let examine of self.examines) {
-				self.papers.push(examine.paper);
+				self.backups.push(examine.paper);
 			}
 
 			recurGet(0)
 
 			function recurGet(i) {
-				if (i >= self.papers.length) {
+				if (i >= self.backups.length) {
+					// two page change
+					self.page(0)
 					return
 				}
-				let paper = self.papers[i]
+				let paper = self.backups[i]
 				self.KeyService.query({'Key.paper.id': paper.id}, function(result) {
 					console.log(result);
 					paper.keys = result.Key;
@@ -54,6 +57,20 @@ class ReviewerMainCtrl {
 				// 防止添加完以后立即修改导致id不存在，所以必须重新获取
 				self.getPapers();
 		});
+	}
+
+	page(i) {
+		let self = this;
+		self.papers = [];
+		console.log(self.backups);
+		for (let paper of self.backups) {
+			if (i==0 && paper.status=='commenting') {
+				self.papers.push(paper)
+			}
+			else if (i==1 && paper.status!='commenting') {
+				self.papers.push(paper)
+			}
+		}
 	}
 }
 

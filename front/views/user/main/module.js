@@ -109,6 +109,9 @@ class UserPaperCtrl {
 
 	remove(index) {
 		let self = this;
+		if (self.paper.status!='accepted') {
+			return
+		}
 		self.TagService.delete({id: self.tags[index].id}, function(result) {
 			self.getTags();
 			alert('删除成功');

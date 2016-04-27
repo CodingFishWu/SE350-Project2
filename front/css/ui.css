@@ -31,7 +31,7 @@
 }
 .paper-item-status>p {
 	display: block;
-	min-width: 3em;
+	min-width: 4em;
 }
 .paper-item-btn {
 	display: table-cell;
