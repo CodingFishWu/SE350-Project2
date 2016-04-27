@@ -28,8 +28,8 @@ angular.module('resources', ['ngResource'])
 	});
 }])
 
-.factory('KeyWordService', ['$resource', function($resource) {
-	return $resource(baseUrl + '/KeyWord/:id', {id: '@id'}, {
+.factory('KeyService', ['$resource', function($resource) {
+	return $resource(baseUrl + '/Key/:id', {id: '@id'}, {
 		query: {
 			method: 'GET',
 			isArray: false
@@ -39,7 +39,7 @@ angular.module('resources', ['ngResource'])
 		}
 	});
 }])
-.factory('Examine', ['$resource', function($resource) {
+.factory('ExamineService', ['$resource', function($resource) {
 	return $resource(baseUrl + '/Examine/:id', {id: '@id'}, {
 		query: {
 			method: 'GET',
@@ -50,7 +50,7 @@ angular.module('resources', ['ngResource'])
 		}
 	})
 }])
-.factory('Tag', ['$resource', function($resource) {
+.factory('TagService', ['$resource', function($resource) {
 	return $resource(baseUrl + '/Tag/:id', {id: '@id'}, {
 		query: {
 			method: 'GET',
@@ -61,7 +61,7 @@ angular.module('resources', ['ngResource'])
 		}
 	})
 }])
-.factory('Respond', ['$resource', function($resource) {
+.factory('RespondService', ['$resource', function($resource) {
 	return $resource(baseUrl + '/Respond/:id', {id: '@id'}, {
 		query: {
 			method: 'GET',

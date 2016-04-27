@@ -7,7 +7,7 @@
     <div class="row">
       <!-- 标题 -->
       <div class="col-md-12">
-        <span class="list-header">{{ctrl.paper.title}} <small>编号: 11223344</small></span>
+        <span class="list-header">{{ctrl.paper.title}} <small>编号: {{ctrl.paper.serialNumber}}</small></span>
       </div>
       <br>
       <hr>
@@ -60,7 +60,7 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">论文正文</label>
               <div class="col-sm-10">
-                <p>正文地址</p>
+                <p>正文：<a href="{{ctrl.url}}" target="_blank">下载正文</a></p>
               </div>
             </div>
             <div class="form-group">
@@ -78,12 +78,12 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">备注</label>
               <div class="col-sm-10">
-                <textarea class="form-control" rows="5"></textarea>
+                <textarea class="form-control" rows="5" ng-model="ctrl.remark"></textarea>
               </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-default">提交审核意见</button>
+                  <button type="submit" class="btn btn-default" ng-click="ctrl.submit()">提交审核意见</button>
                 </div>
               </div>
           </form>
