@@ -6,15 +6,15 @@
 		</div>
 		<br>
 		<hr class="list-hr">
-		<div class="media paper-item">
-			<!-- paper author, titie, keyword, etc -->
+		<!-- reviewer list -->
+		<div class="media paper-item" ng-repeat="item in ctrl.reviewers track by $index">
 		  	<div class="media-body">
-		  	  	<h4 class="media-heading">用户名</h4>
+		  	  	<h4 class="media-heading">{{item.name}}(审阅人）</h4>
 		  	</div>
 			<!-- paper options -->
 			<div class="paper-item-btn">
 				<button type="button" class="btn btn-danger btn-xs">
-  					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+  					<span class="glyphicon glyphicon-remove" ng-click="remove($index)"></span>
 				</button>
 			</div>
 		</div>
@@ -24,8 +24,7 @@
 		  	</button>
 		</div>
 		<div class="input-group tag-add">
-		  	<select class="form-control">
-		  		<option value="1">test</option>
+		  	<select class="form-control" ng-options="item.name for item in ctrl.users" ng-model="ctrl.user">
 		  	</select>
 		  	<span class="input-group-btn permission-add">
 		    	<button class="btn btn-default" type="button" ng-click="ctrl.add()">添加</button>

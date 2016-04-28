@@ -45,16 +45,18 @@ class ChairmanMainCtrl {
 
 	edit(index) {
 		let self = this;
-		if (self.page == 0) {
+		console.log(index)
+		if (self.pageIndex == 0) {
 			self.distribute(index)
 		}
-		else if (self.page == 1) {
+		else if (self.pageIndex == 1) {
 			self.judge(index)
 		}
 	}
 
 	judge(index) {
-		this.$uibModal.open({
+		let self = this
+		self.$uibModal.open({
 			templateUrl: 'views/chairman/main/judge.html',
 			controller: 'chairmanJudgeCtrl as ctrl',
 			resolve: {
@@ -68,7 +70,8 @@ class ChairmanMainCtrl {
 	}
 
 	distribute(index) {
-		this.$uibModal.open({
+		let self = this
+		self.$uibModal.open({
 			templateUrl: 'views/chairman/main/distribute.html',
 			controller: 'chairmanDistributeCtrl as ctrl',
 			resolve: {
@@ -83,9 +86,10 @@ class ChairmanMainCtrl {
 
 	page(i) {
 		let self = this;
+		if(!self.backups || self.backups.length == 0)
+			return
 		self.pageIndex = i;
 		self.papers = [];
-		console.log(self.backups);
 		for (let paper of self.backups) {
 			if (i==0 && paper.status=='created') {
 				self.papers.push(paper)
