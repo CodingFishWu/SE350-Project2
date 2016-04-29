@@ -75,15 +75,16 @@ class ReviewerMainCtrl {
 }
 
 class ReviewerReviewCtrl {
-	constructor($state, $uibModalInstance, ExamineService, examine, keys) {
+	constructor($state, $uibModalInstance, PaperService, ExamineService, examine, keys) {
 		this.$state = $state;
 		this.$uibModalInstance = $uibModalInstance
+		this.PaperService = PaperService
 		this.ExamineService = ExamineService
 		this.examine = examine
 		this.keys = keys
 
 		this.paper = this.examine.paper;
-		this.userId = $state.params.userId;
+		
 		this.url = 'http://202.120.40.73:28080/file/Ua46d59e19268fe/PaperServ/Paper/'+this.paper.id;
 		this.items1 = ["Strong Accept","Accept","Weak Accept","Borderline Paper","Weak Reject","Reject","Strong Reject"];
 		this.items2 = ["expert","high","medium","low","null"];
@@ -98,24 +99,48 @@ class ReviewerReviewCtrl {
 			alert('输入不合法')
 			return
 		}
-		let examine = new self.ExamineService({
-			id: self.examine.id,
-			opinion: self.opinion,
-			confidence: self.confidence,
-			remark: self.remark,
-			status: 'finished',
-			reviewer: {
-				id: self.examine.reviewer.id,
-				type: 'User'
-			},
-			paper: {
+		self.PaperService.get({id: self.paper.id}, function(result) {
+			self.paper.userId = result.id
+
+			let paper = new self.PaperService({
 				id: self.paper.id,
-				type: 'Paper'
-			}
-		})
-		examine.$put(function(result) {
-			alert('已提交审核')
-			self.$uibModalInstance.close()
+				title: self.paper.title,
+				author: self.paper.author,
+				correspondingauthor: self.paper.correspondingauthor,
+				affiliation: self.paper.affiliation,
+				correspondingaddress: self.paper.correspondingaddress,
+				abstraction: self.paper.abstraction,
+				createdtime: self.paper.createdtime,
+				status: 'judging',
+				serialnumber: self.paper.serialnumber,
+				deadline: self.paper.deadline,
+				user: {
+					type: 'User',
+					id: self.paper.userId
+				}
+			})
+
+			paper.$put(function(result) {
+				let examine = new self.ExamineService({
+					id: self.examine.id,
+					opinion: self.opinion,
+					confidence: self.confidence,
+					remark: self.remark,
+					status: 'finished',
+					reviewer: {
+						id: self.examine.reviewer.id,
+						type: 'User'
+					},
+					paper: {
+						id: self.paper.id,
+						type: 'Paper'
+					}
+				})
+				examine.$put(function(result) {
+					alert('已提交审核')
+					self.$uibModalInstance.close()
+				})
+			})
 		})
 	}
 
@@ -129,4 +154,4 @@ class ReviewerReviewCtrl {
 
 angular.module('reviewerMainModule', [])
 .controller('reviewerMainCtrl', ['$state','$uibModal', 'PaperService', 'ExamineService', 'KeyService', ReviewerMainCtrl])
-.controller('reviewerReviewCtrl', ['$state', '$uibModalInstance', 'ExamineService', 'examine', 'keys', ReviewerReviewCtrl]);
+.controller('reviewerReviewCtrl', ['$state', '$uibModalInstance', 'PaperService', 'ExamineService', 'examine', 'keys', ReviewerReviewCtrl]);

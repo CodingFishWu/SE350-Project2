@@ -1,0 +1,75 @@
+<div class="modal-header">
+  <h4 class="modal-title">分配论文</h4>
+</div>
+
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- 标题 -->
+      <div class="col-md-8">
+        <span class="list-header">{{ctrl.paper.title}} <small>编号: {{ctrl.paper.serialnumber}}</small></span>
+      </div>
+      <br>
+      <hr>
+      <!-- 详细内容 -->
+      <div class="col-md-12">
+        <dl class="dl-horizontal">
+          <dt>发布日期</dt>
+          <dd>{{ctrl.paper.createdtime | date:'yyyy-MM-dd HH:mm:ss'}}</dd>
+            
+          <dt>状态</dt>
+          <dd>{{ctrl.paper.status | filtStatus}}</dd>
+            
+          <dt>关键词</dt>
+          <dd>{{ctrl.keys}}</dd>
+  
+          <dt>作者</dt>
+          <dd>{{ctrl.paper.author}}</dd>
+  
+          <dt>作者单位</dt>
+          <dd>{{ctrl.paper.affliation}}</dd>
+  
+          <dt>通讯作者</dt>
+          <dd>{{ctrl.paper.correspondingauthor}}</dd>
+  
+          <dt>通讯地址</dt>
+          <dd>{{ctrl.paper.correspondingaddress}}</dd>
+  
+          <dt>论文摘要</dt>
+          <dd>{{ctrl.paper.abstraction}}</dd>
+  
+          <dt>论文正文</dt>
+          <dd><a href="{{ctrl.url}}" target="_blank">下载正文</a></dd>
+          
+          <dt>审阅截止时间</dt>
+          <dd>
+            <div class="input-group tag-add">
+              <input type="datetime-local" class="form-control" ng-model="ctrl.deadline">
+            </div>
+          </dd>
+
+          <dt>分配审阅人</dt>
+          <dd>
+            <div class="tag-group">
+              <button type="button" class="btn btn-info btn-xs" ng-repeat="item in ctrl.checkedReviewers track by $index">
+               {{item.tag}} <span class="glyphicon glyphicon-remove" ng-click="ctrl.remove($index)"></span>
+              </button>
+            </div>
+            <div class="input-group tag-add">
+              <select class="form-control" ng-options="item.name for item in ctrl.reviewers" ng-model="ctrl.reviewer"></select>
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="ctrl.add()">添加</button>
+              </span>
+            </div>
+          </dd>
+        </dl>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default" ng-click="ctrl.submit()">保存</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -22,6 +22,12 @@
               </div>
             </div>
             <div class="form-group">
+              <label class="col-sm-2 control-label">审阅截止日期</label>
+              <div class="col-sm-10">
+                <p>{{ctrl.paper.deadline | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+              </div>
+            </div>
+            <div class="form-group">
               <label class="col-sm-2 control-label">状态</label>
               <div class="col-sm-10">
                 <p>{{ctrl.paper.status | filtStatus}}</p>

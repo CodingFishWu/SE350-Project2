@@ -150,6 +150,7 @@ class UserPaperCtrl {
 			createdtime: self.paper.createdtime,
 			status: 'revoked',
 			serialnumber: self.paper.serialnumber,
+			deadline: self.paper.deadline,
 			user: {
 				type: 'User',
 				id: self.userId
