@@ -40,7 +40,14 @@
   
           <dt>论文正文</dt>
           <dd><a href="{{ctrl.url}}" target="_blank">下载正文</a></dd>
-          
+
+          <dt>论文序列号</dt>
+          <dd>
+            <div class="input-group tag-add">
+              <input type="text" class="form-control" ng-model="ctrl.serialNumber">
+            </div>
+          </dd>
+
           <dt>审阅截止时间</dt>
           <dd>
             <div class="input-group tag-add">
@@ -51,8 +58,8 @@
           <dt>分配审阅人</dt>
           <dd>
             <div class="tag-group">
-              <button type="button" class="btn btn-info btn-xs" ng-repeat="item in ctrl.checkedReviewers track by $index">
-               {{item.tag}} <span class="glyphicon glyphicon-remove" ng-click="ctrl.remove($index)"></span>
+              <button type="button" class="btn btn-info btn-xs" ng-repeat="item in ctrl.checkReviewers track by $index">
+               {{item.name}} <span class="glyphicon glyphicon-remove" ng-click="ctrl.remove($index)"></span>
               </button>
             </div>
             <div class="input-group tag-add">

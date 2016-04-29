@@ -45,7 +45,6 @@ class ChairmanMainCtrl {
 
 	edit(index) {
 		let self = this;
-		console.log(index)
 		if (self.pageIndex == 0) {
 			self.distribute(index)
 		}
@@ -102,8 +101,100 @@ class ChairmanMainCtrl {
 }
 
 class ChairmanDistributeCtrl {
-	constructor (){
+	constructor ($uibModalInstance, PaperService, UserService, ExamineService, paper){
+		this.$uibModalInstance = $uibModalInstance
+		this.PaperService = PaperService
+		this.UserService = UserService
+		this.ExamineService = ExamineService
+		this.paper = paper
 
+		this.keys = ''
+		if (paper.keys) {
+			for (let key of paper.keys) {
+				this.keys += key.word + '; '
+			}
+		}
+
+		this.getReviewers()
+		this.checkReviewers = []
+	}
+
+	getReviewers() {
+		let self = this
+		self.UserService.query({'User.role': 'reviewer'}, function(result) {
+			self.reviewers = result.User
+		})
+	}
+
+	add() {
+		let self = this;
+		self.checkReviewers.push(self.reviewer)
+		let i = 0
+		for (i in self.reviewers) {
+			if (self.reviewers[i] == self.reviewer) {
+				break
+			}
+		}
+		self.reviewers.splice(i, 1)
+	}
+
+	remove(index) {
+		let self = this
+		self.reviewers.push(self.checkReviewers[index])
+		self.checkReviewers.splice(index, 1)
+	}
+
+	submit() {
+		let self = this
+		if (!self.deadline) {
+			alert('请输入截止时间')
+			return
+		}
+		if (self.checkReviewers.length < 3) {
+			alert('请至少分配3个审阅人')
+			return
+		}
+		console.log(self.paper)
+		let paper = new self.PaperService({
+			id: self.paper.id,
+			title: self.paper.title,
+			author: self.paper.author,
+			correspondingauthor: self.paper.correspondingauthor,
+			affiliation: self.paper.affiliation,
+			correspondingaddress: self.paper.correspondingaddress,
+			abstraction: self.paper.abstraction,
+			createdtime: self.paper.createdtime,
+			status: 'commenting',
+			serialnumber: self.serialNumber,
+			deadline: self.deadline.getTime() / 1000,
+			user: {
+				type: 'User',
+				id: self.paper.user.id
+			}
+		})
+		paper.$put(function(result) {
+			recurSave(0)
+			function recurSave(i) {
+				if (i >= self.checkReviewers.length) {
+					alert('分配成功')
+					self.$uibModalInstance.close()
+				}
+				let examine = new self.ExamineService({
+					status: 'unfinish',
+					paper: {
+						type: 'Paper',
+						id: self.paper.id
+					},
+					reviewer: {
+						type: 'User',
+						id: self.checkReviewers[i].id
+					}
+				})
+				examine.$save(function(result) {
+					recurSave(i + 1)
+				})
+			}
+		})
 	}
 }
 
@@ -116,4 +207,4 @@ class ChairmanJudgeCtrl {
 angular.module('chairmanMainModule', [])
 .controller('chairmanMainCtrl', ['$state', '$uibModal', 'PaperService', 'KeyService', ChairmanMainCtrl])
 .controller('chairmanJudgeCtrl', [ChairmanJudgeCtrl])
-.controller('chairmanDistributeCtrl', [ChairmanDistributeCtrl])
+.controller('chairmanDistributeCtrl', ['$uibModalInstance', 'PaperService', 'UserService', 'ExamineService', 'paper', ChairmanDistributeCtrl])
