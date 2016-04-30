@@ -146,14 +146,9 @@ class ChairmanDistributeCtrl {
 
 	submit() {
 		let self = this
-		if (!self.deadline) {
-			alert('请输入截止时间')
+		if (!self.checkValid)
 			return
-		}
-		if (self.checkReviewers.length != 3) {
-			alert('请分配3个审阅人')
-			return
-		}
+
 		console.log(self.paper)
 		let paper = new self.PaperService({
 			id: self.paper.id,
@@ -197,15 +192,47 @@ class ChairmanDistributeCtrl {
 			}
 		})
 	}
+
+	checkValid() {
+		let self = this
+		if (!self.deadline) {
+			alert('请输入截止时间')
+			return false
+		}
+		if (self.checkReviewers.length != 3) {
+			alert('请分配3个审阅人')
+			return false
+		}
+		if (!self.serialNumber) {
+			alert('请输入序列号')
+			return false
+		}
+		return true
+	}
 }
 
 class ChairmanJudgeCtrl {
-	constructor() {
+	constructor($uibModalInstance, PaperService, ExamineService, paper) {
+		this.$uibModalInstance = $uibModalInstance
+		this.PaperService = PaperService
+		this.ExamineService = ExamineService
+		this.paper = paper
 
+		this.getExamines()
+	}
+
+	getExamines() {
+		let self = this
+		self.ExamineService.query({
+			'paper.id': self.paper.id
+			'status': 'finished'
+		}, function(result) {
+			self.examines = result.Examine
+		})
 	}
 }
 
 angular.module('chairmanMainModule', [])
 .controller('chairmanMainCtrl', ['$state', '$uibModal', 'PaperService', 'KeyService', ChairmanMainCtrl])
-.controller('chairmanJudgeCtrl', [ChairmanJudgeCtrl])
+.controller('chairmanJudgeCtrl', ['$uibModalInstance', 'PaperService', 'ExamineService', 'paper', ChairmanJudgeCtrl])
 .controller('chairmanDistributeCtrl', ['$uibModalInstance', 'PaperService', 'UserService', 'ExamineService', 'paper', ChairmanDistributeCtrl])
