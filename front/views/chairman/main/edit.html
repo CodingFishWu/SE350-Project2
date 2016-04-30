@@ -51,10 +51,15 @@
           <dd>
             <strong>[TODO]</strong>
           </dd>
+
+          <dt>主席决策</dt>
+          <dd>
+            <select class="form-control" ng-options="item|judgeOpinion for item in ctrl.judgements" ng-model="ctrl.judgement"></select>
+          </dd>
         </dl>
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default" ng-click="ctrl.submit()">保存</button>
+            <button type="submit" class="btn btn-default" ng-click="ctrl.submit()">提交</button>
           </div>
         </div>
       </div>

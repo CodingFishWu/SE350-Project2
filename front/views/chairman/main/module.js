@@ -219,6 +219,8 @@ class ChairmanJudgeCtrl {
 		this.paper = paper
 
 		this.getExamines()
+		this.judgements = ['accepted', 'rejected']
+		this.judgement = this.judgements[0]
 	}
 
 	getExamines() {
@@ -228,6 +230,31 @@ class ChairmanJudgeCtrl {
 			'status': 'finished'
 		}, function(result) {
 			self.examines = result.Examine
+		})
+	}
+
+	submit() {
+		let self = this
+		let paper = new self.PaperService({
+			id: self.paper.id,
+			title: self.paper.title,
+			author: self.paper.author,
+			correspondingauthor: self.paper.correspondingauthor,
+			affiliation: self.paper.affiliation,
+			correspondingaddress: self.paper.correspondingaddress,
+			abstraction: self.paper.abstraction,
+			createdtime: self.paper.createdtime,
+			status: self.judgement,
+			serialnumber: self.paper.serialNumber,
+			deadline: self.paper.deadline,
+			user: {
+				type: 'User',
+				id: self.paper.user.id
+			}
+		})
+		paper.$put(function(result) {
+			alert('提交成功')
+			self.$uibModalInstance.close()
 		})
 	}
 }
