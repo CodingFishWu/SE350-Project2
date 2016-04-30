@@ -44,12 +44,19 @@ class ReviewerMainCtrl {
 
 	review(index) {
 		let self = this;
+		// find the index of examine
+		let examine = null
+		for (examine of self.examines) {
+			if (examine.paper.id == self.papers[index].id) {
+				break
+			}
+		}
 		self.$uibModal.open({
 				templateUrl: 'views/reviewer/main/review.html',
 				controller: 'reviewerReviewCtrl as ctrl',
 				resolve: {
 					//paper: self.papers[index]
-					examine: self.examines[index],
+					examine: examine,
 					keys: function() {return self.papers[index].keys}
 				}
 			})
@@ -118,8 +125,8 @@ class ReviewerReviewCtrl {
 		})
 		examine.$put(function(result) {
 			self.ExamineService.query({
-				'paper.id': self.paper.id,
-				'status': 'finished'
+				'Examine.paper.id': self.paper.id,
+				'Examine.status': 'finished'
 			}, function(result) {
 				//如果已经有3份以上的审核完毕
 				if (result.Examine.length >= 3) {

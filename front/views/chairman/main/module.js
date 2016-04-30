@@ -17,7 +17,7 @@ class ChairmanMainCtrl {
 			self.backups = result.Paper?result.Paper:[];
 			// 获得通过审核的列表
 			self.PaperService.query({'Paper.status': 'judging'}, function(result) {
-				for (let i in result.Paper) {
+				for (let i of result.Paper) {
 					self.backups.push(i);
 				}
 
@@ -226,8 +226,8 @@ class ChairmanJudgeCtrl {
 	getExamines() {
 		let self = this
 		self.ExamineService.query({
-			'paper.id': self.paper.id,
-			'status': 'finished'
+			'Examine.paper.id': self.paper.id,
+			'Examine.status': 'finished'
 		}, function(result) {
 			self.examines = result.Examine
 		})
