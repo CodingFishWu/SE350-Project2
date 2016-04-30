@@ -226,7 +226,7 @@ class ChairmanJudgeCtrl {
 	getExamines() {
 		let self = this
 		self.ExamineService.query({
-			'paper.id': self.paper.id
+			'paper.id': self.paper.id,
 			'status': 'finished'
 		}, function(result) {
 			self.examines = result.Examine
