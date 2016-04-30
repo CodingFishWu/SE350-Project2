@@ -150,8 +150,8 @@ class ChairmanDistributeCtrl {
 			alert('请输入截止时间')
 			return
 		}
-		if (self.checkReviewers.length < 3) {
-			alert('请至少分配3个审阅人')
+		if (self.checkReviewers.length != 3) {
+			alert('请分配3个审阅人')
 			return
 		}
 		console.log(self.paper)
@@ -174,6 +174,7 @@ class ChairmanDistributeCtrl {
 		})
 		paper.$put(function(result) {
 			recurSave(0)
+			// 保存审阅人 one by one
 			function recurSave(i) {
 				if (i >= self.checkReviewers.length) {
 					alert('分配成功')

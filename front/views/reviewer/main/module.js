@@ -99,48 +99,61 @@ class ReviewerReviewCtrl {
 			alert('输入不合法')
 			return
 		}
-		self.PaperService.get({id: self.paper.id}, function(result) {
-			self.paper.userId = result.id
 
-			let paper = new self.PaperService({
+		// 更新examine状态和信息
+		let examine = new self.ExamineService({
+			id: self.examine.id,
+			opinion: self.opinion,
+			confidence: self.confidence,
+			remark: self.remark,
+			status: 'finished',
+			reviewer: {
+				id: self.examine.reviewer.id,
+				type: 'User'
+			},
+			paper: {
 				id: self.paper.id,
-				title: self.paper.title,
-				author: self.paper.author,
-				correspondingauthor: self.paper.correspondingauthor,
-				affiliation: self.paper.affiliation,
-				correspondingaddress: self.paper.correspondingaddress,
-				abstraction: self.paper.abstraction,
-				createdtime: self.paper.createdtime,
-				status: 'judging',
-				serialnumber: self.paper.serialnumber,
-				deadline: self.paper.deadline,
-				user: {
-					type: 'User',
-					id: self.paper.userId
+				type: 'Paper'
+			}
+		})
+		examine.$put(function(result) {
+			self.ExamineService.query({
+				'paper.id': self.paper.id,
+				'status': 'finished'
+			}, function(result) {
+				//如果已经有3份以上的审核完毕
+				if (result.Examine.length >= 3) {
+					self.PaperService.get({id: self.paper.id}, function(result) {
+						self.paper.userId = result.user.id
+						//更新paper的状态
+						let paper = new self.PaperService({
+							id: self.paper.id,
+							title: self.paper.title,
+							author: self.paper.author,
+							correspondingauthor: self.paper.correspondingauthor,
+							affiliation: self.paper.affiliation,
+							correspondingaddress: self.paper.correspondingaddress,
+							abstraction: self.paper.abstraction,
+							createdtime: self.paper.createdtime,
+							status: 'judging',
+							serialnumber: self.paper.serialnumber,
+							deadline: self.paper.deadline,
+							user: {
+								type: 'User',
+								id: self.paper.userId
+							}
+						})
+						paper.$put()
+						//提示框，并关闭模态框
+						alert('已提交审核')
+						self.$uibModalInstance.close()
+					})
 				}
-			})
-
-			paper.$put(function(result) {
-				let examine = new self.ExamineService({
-					id: self.examine.id,
-					opinion: self.opinion,
-					confidence: self.confidence,
-					remark: self.remark,
-					status: 'finished',
-					reviewer: {
-						id: self.examine.reviewer.id,
-						type: 'User'
-					},
-					paper: {
-						id: self.paper.id,
-						type: 'Paper'
-					}
-				})
-				examine.$put(function(result) {
+				else {
 					alert('已提交审核')
 					self.$uibModalInstance.close()
-				})
-			})
+				}
+			})	
 		})
 	}
 
