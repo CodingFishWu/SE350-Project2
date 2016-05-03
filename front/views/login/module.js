@@ -27,10 +27,10 @@ class loginCtrl {
 					self.$state.go('user.nav.main', {userId: user.id});
 					break;
 				case 'reviewer':
-					self.$state.go('reviewer.nav.main', {reviewerId: user.id});
+					self.$state.go('reviewer.nav.main', {userId: user.id});
 					break;
 				case 'chairman':
-					self.$state.go('chairman.nav.main', {chairman: user.id});
+					self.$state.go('chairman.nav.main', {userId: user.id});
 					break;
 				}
 			}
