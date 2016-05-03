@@ -65,8 +65,10 @@ class UserSubmitCtrl {
 			let i = 0;
 			recurSave(i);
 			function recurSave(i) {
-				if (i >= self.keys.length)
+				if (i >= self.keys.length) {
+					alert('提交成功')
 					return;
+				}
 				let tmp = new self.KeyService({
 					word: self.keys[i],
 					paper: {

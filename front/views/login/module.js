@@ -8,6 +8,17 @@ class loginCtrl {
 
 		this.name = "";
 		this.password = "";
+		this.roles=[{
+			name: '普通用户',
+			role: 'user'
+		}, {
+			name: '主席',
+			role: 'chairman'
+		}, {
+			name: '审阅人',
+			role: 'reviewer'
+		}]
+		this.role = this.roles[0]
 	}
 
 	login() {
@@ -18,20 +29,27 @@ class loginCtrl {
 		
 		self.UserService.query({'User.name': self.name}, function(result) {
 			if (result.User != null && result.User[0].password == self.password) {
-				alert('登录成功');
 
 				// 根据不同的role  进入不同的页面
 				let user = result.User[0];
-				switch(user.role) {
+				switch(self.role.role) {
 				case 'user':
 					self.$state.go('user.nav.main', {userId: user.id});
-					break;
+					break
 				case 'reviewer':
-					self.$state.go('reviewer.nav.main', {userId: user.id});
-					break;
+					if (user.role == 'user') {
+						alert('你不是审阅者')
+						return
+					}
+					self.$state.go('reviewer.nav.main', {userId: user.id})
+					break
 				case 'chairman':
-					self.$state.go('chairman.nav.main', {userId: user.id});
-					break;
+					if (user.role != 'chairman') {
+						alert('你不是主席')
+						return
+					}
+					self.$state.go('chairman.nav.main', {userId: user.id})
+					break
 				}
 			}
 			else {

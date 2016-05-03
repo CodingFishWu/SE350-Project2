@@ -17,8 +17,10 @@ class ChairmanMainCtrl {
 			self.backups = result.Paper?result.Paper:[];
 			// 获得通过审核的列表
 			self.PaperService.query({'Paper.status': 'judging'}, function(result) {
-				for (let i of result.Paper) {
-					self.backups.push(i);
+				if (result.Paper) {
+					for (let i of result.Paper) {
+						self.backups.push(i);
+					}
 				}
 
 				console.log(self.backups)
@@ -146,7 +148,7 @@ class ChairmanDistributeCtrl {
 
 	submit() {
 		let self = this
-		if (!self.checkValid)
+		if (!self.checkValid())
 			return
 
 		console.log(self.paper)

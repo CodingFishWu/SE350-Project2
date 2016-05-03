@@ -70,12 +70,12 @@ class ReviewerMainCtrl {
 		let self = this;
 		self.papers = [];
 		console.log(self.backups);
-		for (let paper of self.backups) {
-			if (i==0 && paper.status=='commenting') {
-				self.papers.push(paper)
+		for (let j in self.backups) {
+			if (i==0 && self.examines[j].status=='unfinish') {
+				self.papers.push(self.backups[j])
 			}
-			else if (i==1 && paper.status!='commenting') {
-				self.papers.push(paper)
+			else if (i==1 && self.examines[j].status=='finished') {
+				self.papers.push(self.backups[j])
 			}
 		}
 	}
