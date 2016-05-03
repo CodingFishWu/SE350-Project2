@@ -79,6 +79,18 @@ class ReviewerMainCtrl {
 			}
 		}
 	}
+
+	editable(paper) {
+		for (let examine of this.examines) {
+			if (examine.paper == paper)
+				if (examine.status=='finished') {
+					return false
+				}
+				else {
+					return true
+				}
+		}
+	}
 }
 
 class ReviewerReviewCtrl {
