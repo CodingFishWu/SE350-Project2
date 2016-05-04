@@ -24,7 +24,7 @@
           <dt>关键词</dt>
           <dd>
             <div class="tag-group">
-              <button type="button" class="btn btn-info btn-xs" ng-repeat="item in ctrl.paper.keys track by $index">
+              <button type="button" class="btn btn-info btn-xs btn-tag" ng-repeat="item in ctrl.paper.keys track by $index">
                {{item.word}}
               </button>
             </div>
@@ -47,11 +47,20 @@
   
           <dt>论文正文</dt>
           <dd><a href="{{ctrl.url}}" target="_blank">下载正文</a></dd>
+          
+          <dt>审阅意见</dt>
+          <dd>
+            <div>
+              <span><strong>审核意见:</strong> Reject</span>
+              <span><strong>置信度:</strong> high</span>
+              <p>tips</p>
+            </div>
+          </dd>
 
           <dt>标签</dt>
           <dd>
           	<div class="tag-group">
-          	  <button type="button" class="btn btn-info btn-xs" ng-repeat="item in ctrl.tags track by $index">
+          	  <button type="button" class="btn btn-info btn-xs btn-tag" ng-repeat="item in ctrl.tags track by $index">
                {{item.tag}}
            	  </button>
           	</div>

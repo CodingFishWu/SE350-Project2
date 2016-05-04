@@ -50,6 +50,9 @@
 }
 
 /* 标签组 */
+.btn-tag {
+	margin-right: .5em;
+}
 .tag-group {
 	margin-bottom: .5em;
 }

@@ -24,7 +24,9 @@
 		  	  	<p>
 		  	  		<span>投稿日期: {{item.createdtime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
 		  	  		<span>关键字: 
-		  	  			<span class="label label-info" ng-repeat="item2 in item.keys">{{item2.word}}</span>
+		  	  			<button type="button" class="btn btn-info btn-xs btn-tag" ng-repeat="item2 in item.keys">
+		  	  			   {{item2.word}}
+		  	  			</button>
 		  	  		</span>
 		  	  	</p>
 		  	</div>
