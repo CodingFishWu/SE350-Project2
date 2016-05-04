@@ -223,6 +223,7 @@ class ChairmanJudgeCtrl {
 		this.getExamines()
 		this.judgements = ['accepted', 'rejected']
 		this.judgement = this.judgements[0]
+		this.tags = []
 	}
 
 	getExamines() {
@@ -233,6 +234,21 @@ class ChairmanJudgeCtrl {
 		}, function(result) {
 			self.examines = result.Examine
 		})
+	}
+
+	removeTag(index) {
+		let self = this;
+		self.tags.splice(index, 1)
+	}
+
+	add() {
+		let self = this;
+		if (!self.tag) {
+			alert('标签不能为空');
+			return;
+		}
+		self.tags.push(self.tag)
+		
 	}
 
 	submit() {
@@ -255,8 +271,33 @@ class ChairmanJudgeCtrl {
 			}
 		})
 		paper.$put(function(result) {
-			alert('提交成功')
-			self.$uibModalInstance.close()
+			// 被接受 需要添加标签
+			if (self.judgement==self.judgements[0]) {
+				recurSave(0)
+			}
+			else {
+				alert('提交成功')
+				self.$uibModalInstance.close()
+			}
+			
+			function recurSave(i) {
+				if (i >= self.tags.length) {
+					alert('提交成功')
+					self.$uibModalInstance.close()
+					return
+				}
+
+				let tag = new self.TagService({
+					tag: self.tags[i],
+					paper: {
+						type: 'Paper',
+						id: self.paper.id
+					}
+				});
+				tag.$save(function(result) {
+					recurSave(i+1)
+				})
+			}
 		})
 	}
 }

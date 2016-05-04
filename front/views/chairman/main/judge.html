@@ -56,6 +56,20 @@
           <dd>
             <select class="form-control" ng-options="item|judgeOpinion for item in ctrl.judgements" ng-model="ctrl.judgement"></select>
           </dd>
+          <dt ng-show="ctrl.judgement=ctrl.judgements[0]">添加标签</dt>
+          <dd ng-show="ctrl.judgement=ctrl.judgements[0]">
+            <div class="tag-group">
+              <button type="button" class="btn btn-info btn-xs" ng-repeat="item in ctrl.tags track by $index">
+               {{item}} <span class="glyphicon glyphicon-remove" ng-click="ctrl.removeTag($index)"></span>
+              </button>
+            </div>
+            <div class="input-group tag-add">
+              <input type="text" class="form-control" placeholder="标签" ng-model="ctrl.tag">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="ctrl.addTag()">添加</button>
+              </span>
+            </div>
+          </dd>
         </dl>
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">

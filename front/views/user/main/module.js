@@ -92,10 +92,6 @@ class UserPaperCtrl {
 
 		this.userId = $state.params.userId;
 		this.url = 'http://202.120.40.73:28080/file/Ua46d59e19268fe/PaperServ/Paper/'+this.paper.id;
-		this.keys = '';
-		for (let key of paper.keys) {
-			this.keys += key.word + ', ';
-		}
 
 		this.getTags();
 	}
@@ -105,36 +101,6 @@ class UserPaperCtrl {
 		self.TagService.query({'Tag.paper.id': self.paper.id}, function(result) {
 			self.tags = result.Tag;
 		});
-	}
-
-	remove(index) {
-		let self = this;
-		if (self.paper.status!='accepted') {
-			return
-		}
-		self.TagService.delete({id: self.tags[index].id}, function(result) {
-			self.getTags();
-			alert('删除成功');
-		})
-	}
-
-	add() {
-		let self = this;
-		if (!self.tag) {
-			alert('标签不能为空');
-			return;
-		}
-		let tag = new self.TagService({
-			tag: self.tag,
-			paper: {
-				type: 'Paper',
-				id: self.paper.id
-			}
-		});
-		tag.$save(function(result) {
-			self.getTags();
-			alert('添加成功');
-		})
 	}
 
 	revoke() {
