@@ -78,7 +78,7 @@ angular.module('userMainModule', [])
 			return false
 	}
 })
-.controller('userPaperCtrl', function($state, $uibModalInstance, PaperService, TagService, paper){
+.controller('userPaperCtrl', function($state, $uibModalInstance, PaperService, ExamineService, TagService, paper){
 	let self = this
 	//传入模态框的paper
 	self.paper = paper
@@ -86,8 +86,18 @@ angular.module('userMainModule', [])
 	self.userId = $state.params.userId;
 	//file的url
 	self.url = 'http://202.120.40.73:28080/file/Ua46d59e19268fe/PaperServ/Paper/'+self.paper.id;
-	//获取需要显示的tag
-	getTags();
+
+	//获取审阅信息
+	ExamineService.query({
+		'Examine.paper.id': self.paper.id,
+		'Examine.status': 'finished'
+	}).$promise
+	.then((result)=>{
+		console.log(result)
+		self.examines = result.Examine
+		//获取需要显示的tag
+		getTags()
+	})
 
 	function getTags() {
 		TagService.query({'Tag.paper.id': self.paper.id}).$promise
@@ -114,8 +124,7 @@ angular.module('userMainModule', [])
 				id: self.userId
 			}
 		})
-		paper.$put().$promise
-		.then((result)=>{
+		paper.$put((result)=>{
 			alert('撤销成功');
 			$uibModalInstance.close()
 		})
@@ -125,6 +134,13 @@ angular.module('userMainModule', [])
 		if (status=='accepted') {
 			return true
 		}
+		else
+			return false
+	}
+
+	self.showTag = function() {
+		if (self.paper.status=='accepted' || self.paper.status=='revoked')
+			return true
 		else
 			return false
 	}
@@ -162,8 +178,7 @@ angular.module('userMainModule', [])
 				id: self.paper.id
 			}
 		});
-		key.$save().$promise
-		.then((result)=>{
+		key.$save((result)=>{
 			alert('添加成功');
 			self.getKeys();
 		})
@@ -186,8 +201,7 @@ angular.module('userMainModule', [])
 				id: self.userId
 			}
 		});
-		paper.$put().$promise
-		.then((result)=>{
+		paper.$put((result)=>{
 			// paper修改成功
 			// 判断文件是否需要修改
 			let files = document.getElementsByName('file')[0].files;
@@ -213,7 +227,7 @@ angular.module('userMainModule', [])
 			}
 
 			alert('保存成功');
-			self.$uibModalInstance.close();
+			$uibModalInstance.close();
 		})
 	}
 })

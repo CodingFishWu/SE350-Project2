@@ -131,47 +131,46 @@ angular.module('reviewerMainModule', [])
 				type: 'Paper'
 			}
 		})
-		examine.$put().$promise
-		.then((result)=>{
-			return ExamineService.query({
+		examine.$put((result)=>{
+			ExamineService.query({
 				'Examine.paper.id': self.paper.id,
 				'Examine.status': 'finished'
 			}).$promise
-		})
-		.then((result)=>{
-			if (result.Examine.length >= 3) {
-				// 需要更新paper的状态为judging
-				self.PaperService.get({id: self.paper.id}).$promise
-				.then((result)=>{
-					self.paper.userId = result.user.id
-					let paper = new PaperService({
-						id: self.paper.id,
-						title: self.paper.title,
-						author: self.paper.author,
-						correspondingauthor: self.paper.correspondingauthor,
-						affiliation: self.paper.affiliation,
-						correspondingaddress: self.paper.correspondingaddress,
-						abstraction: self.paper.abstraction,
-						createdtime: self.paper.createdtime,
-						status: 'judging',
-						serialnumber: self.paper.serialnumber,
-						deadline: self.paper.deadline,
-						user: {
-							type: 'User',
-							id: self.paper.userId
-						}
+			.then((result)=>{
+				if (result.Examine.length >= 3) {
+					// 需要更新paper的状态为judging
+					self.PaperService.get({id: self.paper.id}).$promise
+					.then((result)=>{
+						self.paper.userId = result.user.id
+						let paper = new PaperService({
+							id: self.paper.id,
+							title: self.paper.title,
+							author: self.paper.author,
+							correspondingauthor: self.paper.correspondingauthor,
+							affiliation: self.paper.affiliation,
+							correspondingaddress: self.paper.correspondingaddress,
+							abstraction: self.paper.abstraction,
+							createdtime: self.paper.createdtime,
+							status: 'judging',
+							serialnumber: self.paper.serialnumber,
+							deadline: self.paper.deadline,
+							user: {
+								type: 'User',
+								id: self.paper.userId
+							}
+						})
+						return paper.$put().$promise
 					})
-					return paper.$put().$promise
-				})
-				.then((result)=>{
+					.then((result)=>{
+						alert('已提交审核')
+						self.$uibModalInstance.close()
+					})
+				}
+				else {
 					alert('已提交审核')
 					self.$uibModalInstance.close()
-				})
-			}
-			else {
-				alert('已提交审核')
-				self.$uibModalInstance.close()
-			}
+				}
+			})
 		})
 	}
 

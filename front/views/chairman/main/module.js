@@ -105,7 +105,7 @@ class ChairmanMainCtrl {
 
 angular.module('chairmanMainModule', [])
 .controller('chairmanMainCtrl', ['$state', '$uibModal', 'PaperService', 'KeyService', ChairmanMainCtrl])
-.controller('chairmanJudgeCtrl', function($uibModalInstance, PaperService, ExamineService, paper) {
+.controller('chairmanJudgeCtrl', function($uibModalInstance, PaperService, ExamineService, toRDF, paper) {
 	let self = this
 	self.paper = paper
 
@@ -137,6 +137,7 @@ angular.module('chairmanMainModule', [])
 	}
 
 	self.submit = function() {
+		self.paper.tags = self.tags
 		let paper = new PaperService({
 			id: self.paper.id,
 			title: self.paper.title,
@@ -149,13 +150,13 @@ angular.module('chairmanMainModule', [])
 			status: self.judgement,
 			serialnumber: self.paper.serialNumber,
 			deadline: self.paper.deadline,
+			rdf: toRDF(self.paper),
 			user: {
 				type: 'User',
 				id: self.paper.user.id
 			}
 		})
-		paper.$put().$promise
-		.then((result)=>{
+		paper.$put((result)=>{
 			// 被接受 需要添加标签
 			if (self.judgement==self.judgements[0]) {
 				recurSave(0)
@@ -245,8 +246,7 @@ angular.module('chairmanMainModule', [])
 				id: self.paper.user.id
 			}
 		})
-		paper.$put().$promise
-		.then((result)=>{
+		paper.$put((result)=>{
 			recurSave(0)
 			// 保存审阅人 one by one
 			function recurSave(i) {

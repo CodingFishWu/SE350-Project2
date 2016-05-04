@@ -2,8 +2,8 @@ var myApp = angular.module('myApp',[
   'ui.router',
 	'ui.bootstrap',
   'resources',
-
   'myFilters',
+  'myUtils',
 
   'mainModule',
 

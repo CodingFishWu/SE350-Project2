@@ -40,8 +40,7 @@ angular.module('userSubmitModule', [])
 				id: self.userId
 			}
 		});
-		paper.$save().$promise
-		.then((result)=>{
+		paper.$save((result)=>{
 			console.log("add paper");
 			console.log(result);
 			let id = result.id;
@@ -71,8 +70,7 @@ angular.module('userSubmitModule', [])
 						id: id
 					}
 				});
-				tmp.$save().$promise
-				.then((result)=>{
+				tmp.$save((result)=>{
 					recurSave(i+1);
 				})
 			}

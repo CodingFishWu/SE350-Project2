@@ -8,7 +8,6 @@
       <!-- 标题 -->
       <div class="col-md-8">
         <span class="list-header">{{ctrl.paper.title}} <small>编号: {{ctrl.paper.serialnumber}}</small></span>
-        <button class="btn btn-danger pull-right" ng-click="ctrl.revoke()" ng-disabled="!revokable(ctrl.paper.status)">撤销</button>
       </div>
       <br>
       <hr>
@@ -47,18 +46,9 @@
   
           <dt>论文正文</dt>
           <dd><a href="{{ctrl.url}}" target="_blank">下载正文</a></dd>
-          
-          <dt>审阅意见</dt>
-          <dd>
-            <div ng-repeat="item in ctrl.examines">
-              <span><strong>审核意见:</strong> {{item.opinion}}</span>
-              <span><strong>置信度:</strong> {{item.confidence}}</span>
-              <p>{{item.remark}}</p>
-            </div>
-          </dd>
 
-          <dt ng-show="ctrl.showTag()">标签</dt>
-          <dd ng-show="ctrl.showTag()">
+          <dt >标签</dt>
+          <dd>
           	<div class="tag-group">
           	  <button type="button" class="btn btn-info btn-xs btn-tag" ng-repeat="item in ctrl.tags track by $index">
                {{item.tag}}

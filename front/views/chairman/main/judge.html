@@ -48,11 +48,11 @@
           <dd>{{ctrl.paper.deadline | date:'yyyy-MM-dd HH:mm:ss'}}</dd>
 
           <dt>审阅人意见</dt>
-          <dd>
+          <dd ng-repeat="item in ctrl.examines">
             <div>
-              <span><strong>审核意见:</strong> Reject</span>
-              <span><strong>置信度:</strong> high</span>
-              <p>tips</p>
+              <span><strong>审核意见:</strong>{{item.opinion}}</span>
+              <span><strong>置信度:</strong> {{item.confidence}}</span>
+              <p>{{item.remark}}</p>
             </div>
           </dd>
 
