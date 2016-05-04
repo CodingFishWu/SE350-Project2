@@ -287,5 +287,4 @@ angular.module('chairmanMainModule', [])
 		}
 		return true
 	}
-}
 })
