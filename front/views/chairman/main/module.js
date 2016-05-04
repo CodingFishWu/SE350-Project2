@@ -101,10 +101,6 @@ class ChairmanMainCtrl {
 		}
 	}
 }
-
-
-
-class ChairmanJudgeCtrl {
 	
 
 angular.module('chairmanMainModule', [])
