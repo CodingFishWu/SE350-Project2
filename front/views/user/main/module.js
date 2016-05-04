@@ -85,7 +85,7 @@ angular.module('userMainModule', [])
 	//获取url里的用户id
 	self.userId = $state.params.userId;
 	//file的url
-	self.url = 'http://202.120.40.73:28080/file/Ua46d59e19268fe/PaperServ/Paper/'+this.paper.id;
+	self.url = 'http://202.120.40.73:28080/file/Ua46d59e19268fe/PaperServ/Paper/'+self.paper.id;
 	//获取需要显示的tag
 	getTags();
 
@@ -142,7 +142,7 @@ angular.module('userMainModule', [])
 	}
 
 	self.remove = function(index) {
-		self.KeyService.delete({id: self.paper.keys[index].id}).$promise
+		KeyService.delete({id: self.paper.keys[index].id}).$promise
 		.then((result)=>{
 			alert('删除成功');
 			getKeys();
@@ -170,7 +170,7 @@ angular.module('userMainModule', [])
 	}
 
 	self.submit = function() {
-		let paper = new self.PaperService({
+		let paper = new PaperService({
 			id: self.paper.id,
 			title: self.paper.title,
 			author: self.paper.author,

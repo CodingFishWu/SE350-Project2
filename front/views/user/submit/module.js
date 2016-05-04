@@ -1,38 +1,32 @@
 "use strict";
 
-class UserSubmitCtrl {
-	constructor($state, $http, PaperService, KeyService) {
-		this.$state = $state;
-		this.$http = $http;
-		this.PaperService = PaperService;
-		this.KeyService = KeyService;
+angular.module('userSubmitModule', [])
+.controller('userSubmitCtrl', function($state, PaperService, KeyService) {
+	//从url获取用户id
+	let self = this
+	self.userId = $state.params.userId;
+	self.keys = [];
 
-		this.userId = $state.params.userId;
-
-		this.keys = [];
-	}
-
-	add() {
-		if (!this.word) {
+	self.add = function() {
+		if (!self.word) {
 			alert("关键字不能为空");
 			return;
 		}
-		this.keys.push(this.word);
-		this.word = '';
-		console.log(this.keys);
+		self.keys.push(self.word);
+		self.word = '';
+		console.log(self.keys);
 	}
 
-	remove(index) {
-		this.keys.splice(index, 1);
-		console.log(this.keys);
+	self.remove = function(index) {
+		self.keys.splice(index, 1);
+		console.log(self.keys);
 	}
 
-	submit() {
-		if (!this.checkValid())
+	self.submit = function() {
+		if (!self.checkValid())
 			return
 
-		let self = this;
-		let paper = new self.PaperService({
+		let paper = new PaperService({
 			title: self.title,
 			author: self.author,
 			correspondingauthor: self.correspondingauthor,
@@ -46,7 +40,8 @@ class UserSubmitCtrl {
 				id: self.userId
 			}
 		});
-		paper.$save(function(result) {
+		paper.$save().$promise
+		.then((result)=>{
 			console.log("add paper");
 			console.log(result);
 			let id = result.id;
@@ -69,14 +64,15 @@ class UserSubmitCtrl {
 					alert('提交成功')
 					return;
 				}
-				let tmp = new self.KeyService({
+				let tmp = new KeyService({
 					word: self.keys[i],
 					paper: {
 						type: 'Paper',
 						id: id
 					}
 				});
-				tmp.$save(function(result) {
+				tmp.$save().$promise
+				.then((result)=>{
 					recurSave(i+1);
 				})
 			}
@@ -118,7 +114,7 @@ class UserSubmitCtrl {
 		
 	}
 
-	checkValid() {
+	self.checkValid = function() {
 		let files = document.getElementsByName('file')[0].files;
 		if (files.length == 0) {
 			alert('没有文件');
@@ -129,17 +125,12 @@ class UserSubmitCtrl {
 			return false;
 		}
 
-		if (!this.title || !this.author || !this.correspondingauthor || !this.affiliation ||
-			!this.correspondingaddress || !this.abstraction || this.keys.length == 0 ||
+		if (!self.title || !self.author || !self.correspondingauthor || !self.affiliation ||
+			!self.correspondingaddress || !self.abstraction || self.keys.length == 0 ||
 			document.getElementsByName('file')[0].files.length == 0) {
 			alert('内容不完整')
 			return false;
 		}
 		return true;
 	}
-
-
-}
-
-angular.module('userSubmitModule', [])
-.controller('userSubmitCtrl', ['$state', '$http', 'PaperService', 'KeyService', UserSubmitCtrl]);
+})
