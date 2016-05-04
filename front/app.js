@@ -4,6 +4,9 @@ var myApp = angular.module('myApp',[
   'resources',
 
   'myFilters',
+
+  'mainModule',
+
 	'loginModule',
 
   'userNavModule',
@@ -19,13 +22,22 @@ var myApp = angular.module('myApp',[
   ]);
 
  
-myApp.config(function($stateProvider, $urlRouterProvider) {
+myApp.config(($stateProvider, $urlRouterProvider)=>{
 
   $urlRouterProvider.otherwise('404')
-  .when('', 'login');
+  .when('', 'main');
 
   // set up the states
   $stateProvider
+    // main search page
+    .state('main', {
+      url: '/main',
+      templateUrl: 'views/main/main.html',
+      controller: 'mainCtrl as ctrl'
+    })
+
+
+    // login
     .state('login', {
       url: '/login',
       templateUrl: 'views/login/login.html',

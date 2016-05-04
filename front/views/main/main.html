@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="col-md-8 col-md-offset-2">
+    <!-- 搜索框 -->
+    <div class="input-group">
+      <div class="input-group-btn" uib-dropdown>
+        <button id="single-button" uib-dropdown-toggle type="button" class="btn btn-default" ng-click="ctrl.open()">
+        {{ctrl.type | searchType}} <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" uib-dropdown-menu>
+          <li role="menuitem" ng-repeat="item in ctrl.types track by $index"><a href ng-click="ctrl.typeClicked($index)">{{item | searchType}}</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      <input type="text" class="form-control" ng-model="ctrl.word">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-click="ctrl.search()">Go!</button>
+      </span>
+    </div><!-- /input-group -->
+  </div>
+</div>

@@ -35,3 +35,19 @@ angular.module('myFilters', [])
 		}
 	}
 })
+.filter('searchType', function() {
+	return function(input) {
+		switch (input) {
+			case 'title':
+				return '标题'
+			case 'key':
+				return '关键字'
+			case 'tag':
+				return '标签'
+			case 'author':
+				return '作者'
+			default:
+				return '出错'
+		}
+	}
+})

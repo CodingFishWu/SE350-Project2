@@ -1,46 +1,43 @@
 "use strict";
 
-class UserMainCtrl {
-	constructor($state, $uibModal, PaperService, KeyService) {
-		this.$state = $state;
-		this.$uibModal = $uibModal;
-		this.PaperService = PaperService;
-		this.KeyService = KeyService;
+angular.module('userMainModule', [])
+.controller('userMainCtrl', function($state, $uibModal, PaperService, KeyService){
+	let self = this
+	//获取url里的user id
+	self.userId = $state.params.userId;
+	//获取初始paper
+	getPapers();
 
-		this.userId = $state.params.userId;
-
-		this.getPapers();
-	}
-
-	getPapers() {
-		let self = this;
-		self.PaperService.query({'Paper.user.id': self.userId}, function(result) {
+	// 获取paper
+	function getPapers(){
+		PaperService.query({'Paper.user.id': self.userId}).$promise
+		.then((result)=>{
 			self.papers = result.Paper;
-
 			//根据用户id查keyword，并绑定到paper中
-			self.KeyService.query({'Key.paper.user.id': self.userId}, function(result) {
-				console.log(result);
-				// no key words
-				if (result.Key == null) {
-					return;
-				}
+			return KeyService.query({'Key.paper.user.id': self.userId}).$promise
+		})
+		.then((result)=>{
+			console.log(result);
+			// no key words
+			if (result.Key == null) {
+				return;
+			}
 
-				for (let paper of self.papers) {
-					paper.keys = [];
+			for (let paper of self.papers) {
+				paper.keys = [];
 					
-					for (let key of result.Key) {
-						if (paper.id == key.paper.id) {
-							paper.keys.push(key);
-						}
+				for (let key of result.Key) {
+					if (paper.id == key.paper.id) {
+						paper.keys.push(key);
 					}
 				}
-			})
+			}
 		});
 	}
 
-	viewDetail(index) {
-		let self = this;
-		self.$uibModal.open({
+	//跳转到查看详情页
+	self.viewDetail = function(index) {
+		$uibModal.open({
 			templateUrl: 'views/user/main/paper.html',
 			controller: 'userPaperCtrl as ctrl',
 			resolve: {
@@ -49,13 +46,13 @@ class UserMainCtrl {
 		})
 		.result.then(function() {
 			// 防止添加完以后立即修改导致id不存在，所以必须重新获取
-			self.getPapers();
+			getPapers();
 		});
 	}
 
-	edit(index) {
-		let self = this;
-		self.$uibModal.open({
+	//跳转到编辑页
+	self.edit = function(index) {
+		$uibModal.open({
 			templateUrl: 'views/user/main/edit.html',
 			controller: 'userEditCtrl as ctrl',
 			resolve: {
@@ -64,15 +61,15 @@ class UserMainCtrl {
 		})
 		.result.then(function() {
 			// 防止添加完以后立即修改导致id不存在，所以必须重新获取
-			self.getPapers();
+			getPapers();
 		});
 	}
 
-	add() {
-		this.$state.go('user.nav.submit',{userId: this.userId});
+	self.add = function() {
+		$state.go('user.nav.submit',{userId: self.userId});
 	}
 
-	editable(status) {
+	self.editable = function(status) {
 		if (status=='created' || status=='commenting' || status=='judging' ||
 			status=='resubmitted') {
 			return true
@@ -80,32 +77,27 @@ class UserMainCtrl {
 		else
 			return false
 	}
-}
+})
+.controller('userPaperCtrl', function($state, $uibModalInstance, PaperService, TagService, paper){
+	let self = this
+	//传入模态框的paper
+	self.paper = paper
+	//获取url里的用户id
+	self.userId = $state.params.userId;
+	//file的url
+	self.url = 'http://202.120.40.73:28080/file/Ua46d59e19268fe/PaperServ/Paper/'+this.paper.id;
+	//获取需要显示的tag
+	getTags();
 
-class UserPaperCtrl {
-	constructor($state, $uibModalInstance, PaperService, TagService, paper) {
-		this.$state = $state;
-		this.$uibModalInstance = $uibModalInstance
-		this.PaperService = PaperService
-		this.TagService = TagService;
-		this.paper = paper;
-
-		this.userId = $state.params.userId;
-		this.url = 'http://202.120.40.73:28080/file/Ua46d59e19268fe/PaperServ/Paper/'+this.paper.id;
-
-		this.getTags();
-	}
-
-	getTags() {
-		let self = this;
-		self.TagService.query({'Tag.paper.id': self.paper.id}, function(result) {
+	function getTags() {
+		TagService.query({'Tag.paper.id': self.paper.id}).$promise
+		.then((result)=>{
 			self.tags = result.Tag;
 		});
 	}
 
-	revoke() {
-		let self = this;
-		let paper = new self.PaperService({
+	self.revoke = function() {
+		let paper = new PaperService({
 			id: self.paper.id,
 			title: self.paper.title,
 			author: self.paper.author,
@@ -122,71 +114,62 @@ class UserPaperCtrl {
 				id: self.userId
 			}
 		})
-		paper.$put(function(result) {
+		paper.$put().$promise
+		.then((result)=>{
 			alert('撤销成功');
-			self.$uibModalInstance.close()
+			$uibModalInstance.close()
 		})
 	}
 
-	revokable(status) {
+	self.revokable = function(status) {
 		if (status=='accepted') {
 			return true
 		}
 		else
 			return false
 	}
+})
+.controller('userEditCtrl', function($state, $uibModalInstance, PaperService, KeyService, paper) {
+	let self = this
+	self.paper = paper;
+	self.userId = $state.params.userId;
 
-
-}
-
-class UserEditCtrl {
-	constructor($state, $uibModalInstance, PaperService, KeyService, paper) {
-		this.$state = $state;
-		this.$uibModalInstance = $uibModalInstance;
-		this.PaperService = PaperService;
-		this.KeyService = KeyService;
-		this.paper = paper;
-
-		this.userId = $state.params.userId;
-	}
-
-	getKeys() {
-		let self = this;
-		self.KeyService.query({'Key.paper.id': self.paper.id}, function(result) {
+	function getKeys() {
+		KeyService.query({'Key.paper.id': self.paper.id}).$promise
+		.then((result)=>{
 			self.paper.keys = result.Key;
 		});
 	}
 
-	remove(index) {
-		let self = this;
-		self.KeyService.delete({id: self.paper.keys[index].id}, function(result) {
-			self.getKeys();
+	self.remove = function(index) {
+		self.KeyService.delete({id: self.paper.keys[index].id}).$promise
+		.then((result)=>{
 			alert('删除成功');
+			getKeys();
 		})
 	}
 
-	add() {
-		let self = this;
+	self.add = function() {
 		// key为空 不允许
 		if (!self.word) {
 			alert("关键字不能为空");
 			return;
 		}
-		let key = new self.KeyService({
+		let key = new KeyService({
 			word: self.word,
 			paper: {
 				type: 'Paper',
 				id: self.paper.id
 			}
 		});
-		key.$save(function(result) {
-			self.getKeys();
+		key.$save().$promise
+		.then((result)=>{
 			alert('添加成功');
+			self.getKeys();
 		})
 	}
 
-	submit() {
-		let self = this;
+	self.submit = function() {
 		let paper = new self.PaperService({
 			id: self.paper.id,
 			title: self.paper.title,
@@ -203,7 +186,8 @@ class UserEditCtrl {
 				id: self.userId
 			}
 		});
-		paper.$put(function(result) {
+		paper.$put().$promise
+		.then((result)=>{
 			// paper修改成功
 			// 判断文件是否需要修改
 			let files = document.getElementsByName('file')[0].files;
@@ -232,9 +216,4 @@ class UserEditCtrl {
 			self.$uibModalInstance.close();
 		})
 	}
-}
-
-angular.module('userMainModule', [])
-.controller('userMainCtrl', ['$state', '$uibModal', 'PaperService', 'KeyService', UserMainCtrl])
-.controller('userPaperCtrl', ['$state', '$uibModalInstance', 'PaperService', 'TagService', 'paper', UserPaperCtrl])
-.controller('userEditCtrl', ['$state', '$uibModalInstance', 'PaperService', 'KeyService', 'paper', UserEditCtrl])
+})
