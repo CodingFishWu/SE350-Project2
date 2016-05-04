@@ -1,11 +1,8 @@
 "use strict";
 
-class UserNavCtrl {
-	constructor($state) {
-		this.$state = $state;
-		this.userId = $state.params.userId;
-	}
-}
-
 angular.module('userNavModule', [])
-.controller('userNavCtrl', ['$state', UserNavCtrl]);
+.controller('userNavCtrl', function($state) {
+	let self = this
+	self.$state = $state
+	self.userId = $state.params.userId
+})
