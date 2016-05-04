@@ -102,34 +102,116 @@ class ChairmanMainCtrl {
 	}
 }
 
-class ChairmanDistributeCtrl {
-	constructor ($uibModalInstance, PaperService, UserService, ExamineService, paper){
-		this.$uibModalInstance = $uibModalInstance
-		this.PaperService = PaperService
-		this.UserService = UserService
-		this.ExamineService = ExamineService
-		this.paper = paper
 
-		this.keys = ''
+
+class ChairmanJudgeCtrl {
+	
+
+angular.module('chairmanMainModule', [])
+.controller('chairmanMainCtrl', ['$state', '$uibModal', 'PaperService', 'KeyService', ChairmanMainCtrl])
+.controller('chairmanJudgeCtrl', function($uibModalInstance, PaperService, ExamineService, paper) {
+	let self = this
+	self.paper = paper
+
+	getExamines()
+	self.judgements = ['accepted', 'rejected']
+	self.judgement = this.judgements[0]
+	self.tags = []
+
+	function getExamines() {
+		ExamineService.query({
+			'Examine.paper.id': self.paper.id,
+			'Examine.status': 'finished'
+		}, function(result) {
+			self.examines = result.Examine
+		})
+	}
+
+	self.removeTag = function(index) {
+		self.tags.splice(index, 1)
+	}
+
+	self.add = function() {
+		if (!self.tag) {
+			alert('标签不能为空');
+			return;
+		}
+		self.tags.push(self.tag)
+		
+	}
+
+	self.submit = function() {
+		let paper = new PaperService({
+			id: self.paper.id,
+			title: self.paper.title,
+			author: self.paper.author,
+			correspondingauthor: self.paper.correspondingauthor,
+			affiliation: self.paper.affiliation,
+			correspondingaddress: self.paper.correspondingaddress,
+			abstraction: self.paper.abstraction,
+			createdtime: self.paper.createdtime,
+			status: self.judgement,
+			serialnumber: self.paper.serialNumber,
+			deadline: self.paper.deadline,
+			user: {
+				type: 'User',
+				id: self.paper.user.id
+			}
+		})
+		paper.$put().$promise
+		.then((result)=>{
+			// 被接受 需要添加标签
+			if (self.judgement==self.judgements[0]) {
+				recurSave(0)
+			}
+			else {
+				alert('提交成功')
+				$uibModalInstance.close()
+				return
+			}
+			
+			function recurSave(i) {
+				if (i >= self.tags.length) {
+					alert('提交成功')
+					$uibModalInstance.close()
+					return
+				}
+
+				let tag = new TagService({
+					tag: self.tags[i],
+					paper: {
+						type: 'Paper',
+						id: self.paper.id
+					}
+				});
+				tag.$save(function(result) {
+					recurSave(i+1)
+				})
+			}
+		})
+	}
+})
+.controller('chairmanDistributeCtrl', function($uibModalInstance, PaperService, UserService, ExamineService, paper) {
+		let self = this
+		self.paper = paper
+
+		self.keys = ''
 		if (paper.keys) {
 			for (let key of paper.keys) {
-				this.keys += key.word + '; '
+				self.keys += key.word + '; '
 			}
 		}
 
-		this.getReviewers()
-		this.checkReviewers = []
-	}
+	getReviewers()
+	self.checkReviewers = []
 
-	getReviewers() {
-		let self = this
-		self.UserService.query({'User.role': 'reviewer'}, function(result) {
+	function getReviewers() {
+		UserService.query({'User.role': 'reviewer'}, function(result) {
 			self.reviewers = result.User
 		})
 	}
 
-	add() {
-		let self = this;
+	self.add = function() {
 		self.checkReviewers.push(self.reviewer)
 		let i = 0
 		for (i in self.reviewers) {
@@ -140,19 +222,17 @@ class ChairmanDistributeCtrl {
 		self.reviewers.splice(i, 1)
 	}
 
-	remove(index) {
-		let self = this
+	self.remove = function(index) {
 		self.reviewers.push(self.checkReviewers[index])
 		self.checkReviewers.splice(index, 1)
 	}
 
-	submit() {
-		let self = this
-		if (!self.checkValid())
+	self.submit = function() {
+		if (checkValid())
 			return
 
 		console.log(self.paper)
-		let paper = new self.PaperService({
+		let paper = new PaperService({
 			id: self.paper.id,
 			title: self.paper.title,
 			author: self.paper.author,
@@ -169,15 +249,16 @@ class ChairmanDistributeCtrl {
 				id: self.paper.user.id
 			}
 		})
-		paper.$put(function(result) {
+		paper.$put().$promise
+		.then((result)=>{
 			recurSave(0)
 			// 保存审阅人 one by one
 			function recurSave(i) {
 				if (i >= self.checkReviewers.length) {
 					alert('分配成功')
-					self.$uibModalInstance.close()
+					$uibModalInstance.close()
 				}
-				let examine = new self.ExamineService({
+				let examine = new ExamineService({
 					status: 'unfinish',
 					paper: {
 						type: 'Paper',
@@ -195,8 +276,7 @@ class ChairmanDistributeCtrl {
 		})
 	}
 
-	checkValid() {
-		let self = this
+	function checkValid() {
 		if (!self.deadline) {
 			alert('请输入截止时间')
 			return false
@@ -212,97 +292,4 @@ class ChairmanDistributeCtrl {
 		return true
 	}
 }
-
-class ChairmanJudgeCtrl {
-	constructor($uibModalInstance, PaperService, ExamineService, paper) {
-		this.$uibModalInstance = $uibModalInstance
-		this.PaperService = PaperService
-		this.ExamineService = ExamineService
-		this.paper = paper
-
-		this.getExamines()
-		this.judgements = ['accepted', 'rejected']
-		this.judgement = this.judgements[0]
-		this.tags = []
-	}
-
-	getExamines() {
-		let self = this
-		self.ExamineService.query({
-			'Examine.paper.id': self.paper.id,
-			'Examine.status': 'finished'
-		}, function(result) {
-			self.examines = result.Examine
-		})
-	}
-
-	removeTag(index) {
-		let self = this;
-		self.tags.splice(index, 1)
-	}
-
-	add() {
-		let self = this;
-		if (!self.tag) {
-			alert('标签不能为空');
-			return;
-		}
-		self.tags.push(self.tag)
-		
-	}
-
-	submit() {
-		let self = this
-		let paper = new self.PaperService({
-			id: self.paper.id,
-			title: self.paper.title,
-			author: self.paper.author,
-			correspondingauthor: self.paper.correspondingauthor,
-			affiliation: self.paper.affiliation,
-			correspondingaddress: self.paper.correspondingaddress,
-			abstraction: self.paper.abstraction,
-			createdtime: self.paper.createdtime,
-			status: self.judgement,
-			serialnumber: self.paper.serialNumber,
-			deadline: self.paper.deadline,
-			user: {
-				type: 'User',
-				id: self.paper.user.id
-			}
-		})
-		paper.$put(function(result) {
-			// 被接受 需要添加标签
-			if (self.judgement==self.judgements[0]) {
-				recurSave(0)
-			}
-			else {
-				alert('提交成功')
-				self.$uibModalInstance.close()
-			}
-			
-			function recurSave(i) {
-				if (i >= self.tags.length) {
-					alert('提交成功')
-					self.$uibModalInstance.close()
-					return
-				}
-
-				let tag = new self.TagService({
-					tag: self.tags[i],
-					paper: {
-						type: 'Paper',
-						id: self.paper.id
-					}
-				});
-				tag.$save(function(result) {
-					recurSave(i+1)
-				})
-			}
-		})
-	}
-}
-
-angular.module('chairmanMainModule', [])
-.controller('chairmanMainCtrl', ['$state', '$uibModal', 'PaperService', 'KeyService', ChairmanMainCtrl])
-.controller('chairmanJudgeCtrl', ['$uibModalInstance', 'PaperService', 'ExamineService', 'paper', ChairmanJudgeCtrl])
-.controller('chairmanDistributeCtrl', ['$uibModalInstance', 'PaperService', 'UserService', 'ExamineService', 'paper', ChairmanDistributeCtrl])
+})
