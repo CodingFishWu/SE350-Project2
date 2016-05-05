@@ -14,14 +14,9 @@
 			<!-- paper options -->
 			<div class="paper-item-btn">
 				<button type="button" class="btn btn-danger btn-xs">
-  					<span class="glyphicon glyphicon-remove" ng-click="remove($index)"></span>
+  					<span class="glyphicon glyphicon-remove" ng-click="ctrl.remove($index)"></span>
 				</button>
 			</div>
-		</div>
-		<div class="tag-group">
-		 	 <button type="button" class="btn btn-info btn-xs" ng-repeat="item in ctrl.paper.keys track by $index">
-		     {{item.word}} <span class="glyphicon glyphicon-remove" ng-click="ctrl.remove($index)"></span>
-		  	</button>
 		</div>
 		<div class="input-group tag-add">
 		  	<select class="form-control" ng-options="item.name for item in ctrl.users" ng-model="ctrl.user">

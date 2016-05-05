@@ -29,9 +29,11 @@ class ChairmanPermissionCtrl {
 
 	remove(index) {
 		let self = this
+		console.log(self.reviewers[index].name)
 		let user = new self.UserService({
 			id: self.reviewers[index].id,
 			name: self.reviewers[index].name,
+			password: self.reviewers[index].password,
 			role: 'user'
 		})
 		user.$put(function(result) {
@@ -47,6 +49,7 @@ class ChairmanPermissionCtrl {
 		let user = new self.UserService({
 			id: self.user.id,
 			name: self.user.name,
+			password: self.user.password,
 			role: 'reviewer'
 		})
 		user.$put(function(result) {
