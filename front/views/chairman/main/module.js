@@ -103,7 +103,7 @@ class ChairmanMainCtrl {
 }
 	
 
-angular.module('chairmanMainModule', [])
+angular.module('chairmanMainModule', ['myUtils'])
 .controller('chairmanMainCtrl', ['$state', '$uibModal', 'PaperService', 'KeyService', ChairmanMainCtrl])
 .controller('chairmanJudgeCtrl', function($uibModalInstance, PaperService, ExamineService, toRDF, paper) {
 	let self = this
@@ -127,7 +127,7 @@ angular.module('chairmanMainModule', [])
 		self.tags.splice(index, 1)
 	}
 
-	self.add = function() {
+	self.addTag = function() {
 		if (!self.tag) {
 			alert('标签不能为空');
 			return;
