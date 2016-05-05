@@ -204,6 +204,7 @@ angular.module('chairmanMainModule', [])
 
 	function getReviewers() {
 		UserService.query({'User.role': 'reviewer'}, function(result) {
+			console.log(result)
 			self.reviewers = result.User
 		})
 	}
@@ -225,7 +226,7 @@ angular.module('chairmanMainModule', [])
 	}
 
 	self.submit = function() {
-		if (checkValid())
+		if (!checkValid())
 			return
 
 		console.log(self.paper)
@@ -253,6 +254,7 @@ angular.module('chairmanMainModule', [])
 				if (i >= self.checkReviewers.length) {
 					alert('分配成功')
 					$uibModalInstance.close()
+					return
 				}
 				let examine = new ExamineService({
 					status: 'unfinish',

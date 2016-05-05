@@ -137,9 +137,10 @@ angular.module('reviewerMainModule', [])
 				'Examine.status': 'finished'
 			}).$promise
 			.then((result)=>{
+				console.log(result)
 				if (result.Examine.length >= 3) {
 					// 需要更新paper的状态为judging
-					self.PaperService.get({id: self.paper.id}).$promise
+					PaperService.get({id: self.paper.id}).$promise
 					.then((result)=>{
 						self.paper.userId = result.user.id
 						let paper = new PaperService({
