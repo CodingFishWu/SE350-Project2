@@ -105,9 +105,10 @@ class ChairmanMainCtrl {
 
 angular.module('chairmanMainModule', ['myUtils'])
 .controller('chairmanMainCtrl', ['$state', '$uibModal', 'PaperService', 'KeyService', ChairmanMainCtrl])
-.controller('chairmanJudgeCtrl', function($uibModalInstance, PaperService, ExamineService, toRDF, paper) {
+.controller('chairmanJudgeCtrl', function($uibModalInstance, PaperService, ExamineService, TagService, toRDF, paper) {
 	let self = this
 	self.paper = paper
+	self.url = 'http://202.120.40.73:28080/file/Ua46d59e19268fe/PaperServ/Paper/'+self.paper.id;
 
 	getExamines()
 	self.judgements = ['accepted', 'rejected']
@@ -191,6 +192,7 @@ angular.module('chairmanMainModule', ['myUtils'])
 .controller('chairmanDistributeCtrl', function($uibModalInstance, PaperService, UserService, ExamineService, paper) {
 		let self = this
 		self.paper = paper
+		self.url = 'http://202.120.40.73:28080/file/Ua46d59e19268fe/PaperServ/Paper/'+self.paper.id;
 
 		self.keys = ''
 		if (paper.keys) {
