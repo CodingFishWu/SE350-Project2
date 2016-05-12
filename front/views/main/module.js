@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('mainModule', [])
-.controller('mainCtrl', function($state, PaperService, KeyService, TagService) {
+.controller('mainCtrl', function($state, $uibModal, PaperService, KeyService, TagService) {
 	let self = this
 
 	// dropdown
@@ -40,8 +40,10 @@ angular.module('mainModule', [])
 					for (let key of result.Key) {
 						let flag=true
 						for (let paper of self.papers) {
-							if (paper.id == key.paper.id)
+							if (paper.id == key.paper.id) {
 								flag = false
+								break
+							}
 						}
 						if (flag) {
 							self.papers.push(key.paper)
@@ -58,7 +60,16 @@ angular.module('mainModule', [])
 					if (!result.Tag)
 						return
 					for (let tag of result.Tag) {
-						self.papers.push(tag.paper)
+						let flag = true
+						for (let paper of self.papers) {
+							if (paper.id == tag.paper.id) {
+								flag = false
+								break
+							}
+						}
+						if (flag) {
+							self.papers.push(tag.paper)
+						}
 					}
 					getKeys(self.papers)
 				})
@@ -84,6 +95,16 @@ angular.module('mainModule', [])
 		}
 	}
 
+	self.viewDetail = function(index) {
+		$uibModal.open({
+			templateUrl: 'views/main/paper.html',
+			controller: 'mainPaperCtrl as ctrl',
+			resolve: {
+				paper: self.papers[index]
+			}
+		});
+	}
+
 	function getSearchKey() {
 		switch(self.type) {
 			case 'title':
@@ -103,5 +124,18 @@ angular.module('mainModule', [])
 	}
 	self.toLogin = function() {
 		$state.go('login')
+	}
+})
+.controller('mainPaperCtrl', function(TagService, paper) {
+	let self = this
+	self.paper = paper
+	self.url = 'http://202.120.40.73:28080/file/Ua46d59e19268fe/PaperServ/Paper/'+self.paper.id;
+	getTags()
+
+	function getTags() {
+		TagService.query({'Tag.paper.id': self.paper.id}).$promise
+		.then((result)=>{
+			self.tags = result.Tag;
+		});
 	}
 })
