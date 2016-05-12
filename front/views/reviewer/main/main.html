@@ -24,7 +24,7 @@
 		  	<div class="media-body">
 		  	  	<h4 class="media-heading">{{item.title}} <small>作者: {{item.author}} 编号: {{item.serialnumber}}</small></h4>
 		  	  	<p>
-		  	  		<span>投稿日期: {{item.createdtime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+		  	  		<span>投稿日期: {{item.createdtime*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</span>
 		  	  		<button type="button" class="btn btn-info btn-xs btn-tag" ng-repeat="item2 in item.keys">
 		  	  		   {{item2.word}}
 		  	  		</button>

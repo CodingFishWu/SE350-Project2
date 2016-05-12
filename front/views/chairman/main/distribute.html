@@ -15,7 +15,7 @@
       <div class="col-md-12">
         <dl class="dl-horizontal">
           <dt>发布日期</dt>
-          <dd>{{ctrl.paper.createdtime | date:'yyyy-MM-dd HH:mm:ss'}}</dd>
+          <dd>{{ctrl.paper.createdtime*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</dd>
             
           <dt>状态</dt>
           <dd>{{ctrl.paper.status | filtStatus}}</dd>

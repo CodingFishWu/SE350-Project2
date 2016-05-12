@@ -15,7 +15,7 @@
       <div class="col-md-12">
         <dl class="dl-horizontal">
           <dt>发布日期</dt>
-          <dd>{{ctrl.paper.createdtime | date:'yyyy-MM-dd HH:mm:ss'}}</dd>
+          <dd>{{ctrl.paper.createdtime*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</dd>
             
           <dt>状态</dt>
           <dd>{{ctrl.paper.status | filtStatus}}</dd>
@@ -41,13 +41,13 @@
           <dt>论文正文</dt>
           <dd><a href="{{ctrl.url}}" target="_blank">下载正文</a></dd>
 
-          <dt>论文序列号</dt>
+          <dt>论文序列</dt>
           <dd>{{ctrl.paper.serialNumber}}</dd>
 
-          <dt>审阅截止时间</dt>
+          <dt>截止时间</dt>
           <dd>{{ctrl.paper.deadline | date:'yyyy-MM-dd HH:mm:ss'}}</dd>
 
-          <dt>审阅人意见</dt>
+          <dt>审阅意见</dt>
           <dd ng-repeat="item in ctrl.examines">
             <div>
               <span><strong>审核意见:</strong>{{item.opinion}}</span>
