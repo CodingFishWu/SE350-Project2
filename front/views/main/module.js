@@ -23,7 +23,7 @@ angular.module('mainModule', [])
 			case 'title':
 			case 'author':
 				let params = {}
-				params[getSearchKey()] = self.word
+				params[getSearchKey()] = '(like)'+self.word
 				params['Paper.status'] = 'accepted'
 				PaperService.query(params, function(result) {
 					self.papers = result.Paper
@@ -38,7 +38,14 @@ angular.module('mainModule', [])
 					if (!result.Key)
 						return
 					for (let key of result.Key) {
-						self.papers.push(key.paper)
+						let flag=true
+						for (let paper of self.papers) {
+							if (paper.id == key.paper.id)
+								flag = false
+						}
+						if (flag) {
+							self.papers.push(key.paper)
+						}
 					}
 					getKeys(self.papers)
 				})
@@ -71,6 +78,7 @@ angular.module('mainModule', [])
 					'Key.paper.id': papers[i].id
 				}, function(result) {
 					papers[i].keys = result.Key
+					recurGet(i+1)
 				})
 			}
 		}
